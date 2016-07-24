@@ -1,0 +1,30 @@
+
+# Files for local development
+tester_profile
+frames_to_movie.py
+
+# Directories 
+log/*
+_temp/*
+
+# Auxiliary files
+*.pyc
+core/*.pyc
+.*.swp
+.*.swo
+
+# Large archive, image and video files
+*.pickle
+*.gz
+*.png
+*.avi
+
+# LaTeX files
+*.dvi
+*.aux
+*.log
+*.bbl
+*.toc
+*.blg
+*~
+build
