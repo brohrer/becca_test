@@ -8,5 +8,5 @@ download_url='https://github.com/brohrer/beccatest/archive/master.zip',
 author='Brandon Rohrer',
 author_email='brohrer@gmail.com',
 license='MIT',
-packages=['beccatest', 'becca'],
+packages=['beccatest'],
 zip_safe=False)
