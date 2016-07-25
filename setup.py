@@ -9,4 +9,5 @@ author='Brandon Rohrer',
 author_email='brohrer@gmail.com',
 license='MIT',
 packages=['beccatest'],
+install_requires=['becca'],
 zip_safe=False)

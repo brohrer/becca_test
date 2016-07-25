@@ -76,13 +76,13 @@ def suite():
         10., # image_2D
         3., # fruit
         ])
-    mean_score = np.sum(np.array(scores) * weights) / np.sum(weights)
         
     print('Individual test world scores:')
     scores = []
     for score in performance:
         print('    {0:.2}, {1}'.format(score[0], score[1]))
         scores.append(score[0])
+    mean_score = np.sum(np.array(scores) * weights) / np.sum(weights)
     print('Weighted test suite score: {0:.2}'.format(mean_score))
     print('Test suite completed in {0:.2} seconds'.format(
         finish_time - start_time))
