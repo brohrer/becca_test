@@ -4,17 +4,18 @@ and continues learning throughout its lifetime. This package contains
 some test worlds and helps to run them. This helps ensure that 
 BECCA is working as intended.
 
-####Install BECCA
+####Install the BECCA test worlds.
 
-`becca-test` installs automatically when you install BECCA. 
-If you'd like to install it separately:
+From the command line:
 
-    >pip install --pre beccatest
+    pip install --pre becca_test
+
+`becca` installs automatically when you install `becca_test`. 
 
 ####Run BECCA on a decathlon of test worlds.
 
-    >python
-    >>>import beccatest.test
+    python
+    >>>import becca_test.test
     >>>becca-test.test.suite()
 
 <a href="url"><img src="https://github.com/brohrer/becca-docs/raw/master/figs/logo_plate.png" 
