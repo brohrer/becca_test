@@ -17,6 +17,12 @@ From the command line:
     python
     >>>import becca_test.test
     >>>becca-test.test.suite()
+    
+####Run a single world.
+
+To run the test world `grid_1D.py` from the command line:
+
+    python -m grid_1D
 
 <a href="url"><img src="https://github.com/brohrer/becca-docs/raw/master/figs/logo_plate.png" 
 align="center" height="40" width="120" ></a>
