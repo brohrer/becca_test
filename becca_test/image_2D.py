@@ -24,51 +24,7 @@ class World(BaseWorld):
     background. It is rewarded for directing it near the center.
     Optimal performance is a reward of around .8 reward per time step.
 
-    block_width : int
-        The width of each superpixel, in number of columns.
-    column_history : list if ints
-        A time series of the location (measured in column pixels) of the
-        center of the brain's field of view.
-    column_min, column_max : int
-        The low and high bounds on where the field of view can be centered.
-    column_position : int
-        The current location of the center of the field of view.
-    fov_fraction : float
-        The approximate fraction of the height and width of the image
-        that the field of view occupies.
-    fov_height, fov_width : float
-        The height and width (in number of pixel rows and columns)
-        of the field of view.
-    fov_span : int
-        The world pixelizes its field of view into a superpixel array
-        that is ``fov_span`` X ``fov_span``.
-    image_data : array of floats
-        The image, read in and stored as a 2D numpy array.
-    image_filename : str
-        The file name of the image including the relative path.
-    jump_fraction : float
-        The fraction of time steps on which the agent jumps to
-        a random position.
-    max_step_size : int
-        The largest step size allowed, in pixels in the original image.
-    noise_magnitude : float
-        A scaling factor that drives how much inaccurate each movement
-        will be.
-    reward_region_width : int
-        The width of the region, in number of columns, within which
-        the center of the field of view gets rewarded.
-    row_history : list if ints
-        A time series of the location (measured in row pixels) of the
-        center of the brain's field of view.
-    row_min, row_max : int
-        The low and high bounds on where the field of view can be centered.
-    row_position : int
-        The current location of the center of the field of view.
-    step_cost : float
-        The punishment per position step taken.
-    target_column, target_row : int
-        The row and column index that marks the center of the rewarded region.
-
+    
     Some of this world's attributes are defined in base_world.py.
     The rest are defined below.
     """
@@ -82,14 +38,21 @@ class World(BaseWorld):
             The number of time steps to continue the world.
         """
         BaseWorld.__init__(self, lifespan)
-        self.jump_fraction = .05
         self.name = 'image_2D'
         self.name_long = 'two dimensional visual world'
         print("Entering", self.name_long)
+        
+        # fov_span : int
+        #     The world pixelizes its field of view into a superpixel array
+        #     that is ``fov_span`` X ``fov_span``.
         self.fov_span = 5
         # Initialize the image_data to be used as the environment.
         module_path = os.path.dirname(os.path.abspath(__file__))
+        # image_filename : str
+        #     The file name of the image including the relative path.
         self.image_filename = os.path.join(module_path, 'images', 'block_test.png')
+        # image_data : array of floats
+        #     The image, read in and stored as a 2D numpy array.
         self.image_data = plt.imread(self.image_filename)
         # Convert it to grayscale if it's in color.
         if self.image_data.shape[2] == 3:
@@ -99,34 +62,65 @@ class World(BaseWorld):
         # allowable positions, and its initial position.
         (im_height, im_width) = self.image_data.shape
         im_size = np.minimum(im_height, im_width)
+        # max_step_size : int
+        #     The largest step size allowed, in pixels in the original image.
         self.max_step_size = im_size / 2
+        # target_column, target_row : int
+        #     The row and column index that marks the center of the rewarded region.
         self.target_column = im_width / 2
         self.target_row = im_height / 2
+        # reward_region_width : int
+        #     The width of the region, in number of columns, within which
+        #     the center of the field of view gets rewarded.
         self.reward_region_width = im_size / 8
+        # noise_magnitude : float
+        #     A scaling factor that drives how much inaccurate each movement
+        #     will be.
         self.noise_magnitude = 0.1
+        # fov_fraction : float
+        #     The approximate fraction of the height and width of the image
+        #     that the field of view occupies.
         self.fov_fraction = 0.5
+        # fov_height, fov_width : float
+        #     The height and width (in number of pixel rows and columns)
+        #     of the field of view.
         self.fov_height = im_size * self.fov_fraction
         self.fov_width = self.fov_height
+        # column_min, column_max, row_min, row_max : int
+        #     The low and high bounds on where the field of view can be centered.
         self.column_min = int(np.ceil(self.fov_width / 2))
         self.column_max = int(np.floor(im_width - self.column_min))
         self.row_min = int(np.ceil(self.fov_height / 2))
         self.row_max = int(np.floor(im_height - self.row_min))
+        # column_position, row_position : int
+        #     The current location of the center of the field of view.
         self.column_position = np.random.random_integers(self.column_min,
                                                          self.column_max)
         self.row_position = np.random.random_integers(self.row_min,
                                                       self.row_max)
+
         self.num_sensors = 2 * self.fov_span ** 2
         self.num_actions = 16
         self.sensors = np.zeros(self.num_sensors)
         self.action = np.zeros(self.num_actions)
+
+        # jump_fraction : float
+        #     The fraction of time steps on which the agent jumps to
+        #     a random position.
+        self.jump_fraction = .05
         self.reward = 0.
+        # column_history, row_history : list if ints
+        #     A time series of the location (measured in column or row pixels) of the
+        #     center of the brain's field of view.
         self.column_history = []
         self.row_history = []
-        self.world_visualize_period = 1e3
+        self.world_visualize_period = 1e6
         self.brain_visualize_period = 1e3
+        # print_features : boolean
+        #     Indicate whether to visualize each of the features individually. 
+        #     TODO: re-implement print features
         self.print_features = False
-        # TODO: re-implement print features
-
+        
 
     def step(self, action):
         """
@@ -198,10 +192,16 @@ class World(BaseWorld):
                               int(self.row_position + self.fov_height / 2),
                               int(self.column_position - self.fov_width / 2):
                               int(self.column_position + self.fov_width / 2)]
+        # Calculate center surround features for the field of view.
         center_surround_pixels = wtools.center_surround(fov,
                                                         self.fov_span,
                                                         self.fov_span)
         unsplit_sensors = center_surround_pixels.ravel()
+        # Center surround values vary between -1 and 1. One means light
+        # surrounded by dark, one means dark surrounded by light. 
+        # Split them each into
+        # two sensors, and stack the sets of positive and negative sensors
+        # together to complete the sensor array.
         self.sensors = np.concatenate((np.maximum(unsplit_sensors, 0),
                                        np.abs(np.minimum(unsplit_sensors, 0))))
 
