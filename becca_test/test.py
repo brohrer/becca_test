@@ -1,22 +1,22 @@
 """
 Connect a Becca brain to a world and run them.
 
-Usage
+Command line usage
 -----
 Test Becca on the grid1D.py world.
-    > python -m test grid1D
+    python -m test grid1D
         or
-    > python -m test 1
+    python -m test 1
 
 Test Becca on the suite of all test worlds.
-    > python -m test all
+    python -m test all
         or
-    > python -m test 0
+    python -m test 0
 
 Profile Becca on the image2D.py world.
-    > python -m test image2D --profile 
+    python -m test image2D --profile 
         or
-    > python -m test 9 -p 
+    python -m test 9 -p 
 """
 
 from __future__ import print_function
