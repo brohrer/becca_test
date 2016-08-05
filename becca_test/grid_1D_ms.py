@@ -18,38 +18,8 @@ class World(BaseWorld):
     The fourth position is rewarded and the ninth position is punished.
     Optimal performance is a reward of about 85 per time step.
 
-    Attributes
-    ----------
-    action : array of floats
-        The most recent set of action commands received.
-    brain_visualize_period : int
-        The number of time steps between creating a full visualization of
-        the ``brain``.
-    energy_cost : float
-        The punishment per position step taken.
-    jump_fraction : float
-        The fraction of time steps on which the agent jumps to
-        a random position.
-    name : str
-        A name associated with this world.
-    name_long : str
-        A longer name associated with this world.
-    num_actions : int
-        The number of action commands this world expects. This should be
-        the length of the action array received at each time step.
-    num_sensors : int
-        The number of sensor values the world returns to the brain
-        at each time step.
-    reward_magnitude : float
-        The magnitude of the reward and punishment given at
-        rewarded or punished positions.
-    simple_state : int
-        The nearest integer position of the agent in the world.
-    world_state : float
-        The actual position of the agent in the world. This can be fractional.
-    world_visualize_period : int
-        The number of time steps between creating visualizations of
-        the world.
+    Most of this world's attributes are defined in base_world.py.
+    The few that aren't are defined below.
     """
     def __init__(self, lifespan=None):
         """
@@ -61,24 +31,35 @@ class World(BaseWorld):
             The number of time steps to continue the world.
         """
         BaseWorld.__init__(self, lifespan)
-        self.energy_cost = 0.01
-        self.jump_fraction = 0.1
-        self.display_state = False
         self.name = 'grid_1D_ms'
         self.name_long = 'multi-step one dimensional grid world'
         print("Entering", self.name_long)
+
         self.num_sensors = 9
         self.num_actions = 2
         self.action = np.zeros(self.num_actions)
+        # energy_cost : float
+        #     The punishment per position step taken.
+        self.energy_cost = 0.01
+        # jump_fraction : float
+        #     The fraction of time steps on which the agent jumps to
+        #     a random position.
+        self.jump_fraction = 0.1
+        # world_state : float
+        #     The actual position of the agent in the world.
+        #     This can be fractional.
         self.world_state = 0
+        # simple_state : int
+        #     The nearest integer position of the agent in the world.
         self.simple_state = 0
-        self.world_visualize_period = 1e3
+
+        self.world_visualize_period = 1e6
         self.brain_visualize_period = 1e3
 
 
     def step(self, action):
         """
-        Advance the world by one time step
+        Advance the world by one time step.
 
         Parameters
         ----------

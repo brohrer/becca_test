@@ -8,21 +8,6 @@ import numpy as np
 class World(object):
     """
     The base class for creating a new world.
-
-    Attributes
-    ----------
-    brain_visualization_period : int
-        The interval between rendering the state of the brain for the user..
-    lifespan : float
-        The number of time steps for which the world should remain active.
-    name : String
-        The name of the world.
-    num_actions, num_sensors : int
-        The number of actions and sensors, respectively.
-    timestep : int
-        The number of time steps that the world has already been through.
-    world_visualization_period : int
-        The interval between rendering the state of the world for the user.
     """
     def __init__(self, lifespan=None):
         """
@@ -34,23 +19,47 @@ class World(object):
             The number of time steps that the world will be
             allowed to continue.
         """
+        # lifespan : float
+        #     The number of time steps for which the world should continue
+        #     to exist.
         if lifespan is None:
             self.lifespan = 10 ** 5
         else:
             self.lifespan = lifespan
-        # Starting at -1 allows for an intialization pass.
+        # timestep : int
+        #     The number of time steps that the world has already been through.
+        #     Starting at -1 allows for an intialization pass.
         self.timestep = -1
-        self.world_visualize_period = 1e4
+        # world_visualization_period : int
+        #     How often to turn the world into a picture.
+        self.world_visualize_period = 1e6
+        # brain_visualization_period : int
+        #     How often to turn the brain's state into a picture.
         self.brain_visualize_period = 1e4
+        # name : String
+        #     The name of the world.
         self.name = 'abstract base world'
-        # These will likely be overridden in any subclass
+        # num_actions, num_sensors : int
+        #     The number of actions and sensors, respectively.
+        #     These will likely be overridden in any subclass
         self.num_sensors = 0
         self.num_actions = 0
+        # sensors, actions : array of floats
+        #     The arrays that represent the full set of sensed observations
+        #     and intended actions, updated at each time step.
+        self.sensors = np.zeros(self.num_sensors)
+        self.actions = np.zeros(self.num_actions)
+        # reward : float
+        #     The feedback signal on the goodness of an brain's experience.
+        #     0 is neutral.
+        #     1 is very, very good.
+        #     -1 is very, very bad.
+        self.reward = 0
 
 
     def step(self, actions):
         """
-        Take a timestep through an empty world that does nothing.
+        Take a time step through an empty world that does nothing.
 
         Parameters
         ----------
@@ -65,15 +74,18 @@ class World(object):
             The current reward provided by the world.
         """
         self.timestep += 1
-        sensors = np.zeros(self.num_sensors)
-        actions = np.zeros(actions.shape)
-        reward = 0
-        return sensors, reward
+        self.sensors = np.zeros(self.num_sensors)
+        self.actions = np.zeros(self.num_actions)
+        self.reward = 0
+        return self.sensors, self.reward
 
 
     def is_alive(self):
         """
         Check whether the world is alive.
+        
+        Once more than lifespan time steps have been completed,
+        stop running.
 
         Returns
         -------
@@ -84,12 +96,12 @@ class World(object):
 
     def visualize(self, brain):
         """
-        Let the world show BECCA's internal state as well as its own.
+        Let the world show Becca's internal state as well as its own.
 
         Parameters
         ----------
         brain : Brain
-            A copy of the ``Brain``, provided to the world so that the
+            A copy of the Brain, provided to the world so that the
             world can interpret and visualize it in the context of the
             world.
         """

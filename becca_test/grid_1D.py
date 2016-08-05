@@ -1,7 +1,7 @@
 """
 One-dimensional grid task.
 
-This task tests an brain's ability to choose an appropriate action.
+This task tests a brain's ability to choose an appropriate action.
 It is straightforward. Reward and punishment is clear and immediate.
 There is only one reward state and it can be reached in a single
 step.
@@ -28,41 +28,11 @@ class World(BaseWorld):
     Occasionally the brain will get
     involuntarily bumped to a random position on the line.
     This is intended to be a simple-as-possible
-    task for troubleshooting BECCA.
+    task for troubleshooting Becca.
     Optimal performance is a reward of about 90 per time step.
 
-    Attributes
-    ----------
-    action : array of floats
-        The most recent set of action commands received.
-    brain_visualize_period : int
-        The number of time steps between creating a full visualization of
-        the ``brain``.
-    energy_cost : float
-        The punishment per position step taken.
-    jump_fraction : float
-        The fraction of time steps on which the agent jumps to
-        a random position.
-    name : str
-        A name associated with this world.
-    name_long : str
-        A longer name associated with this world.
-    num_actions : int
-        The number of action commands this world expects. This should be
-        the length of the action array received at each time step.
-    num_sensors : int
-        The number of sensor values the world returns to the brain
-        at each time step.
-    reward_magnitude : float
-        The magnitude of the reward and punishment given at
-        rewarded or punished positions.
-    simple_state : int
-        The nearest integer position of the agent in the world.
-    world_state : float
-        The actual position of the agent in the world. This can be fractional.
-    world_visualize_period : int
-        The number of time steps between creating visualizations of
-        the world.
+    Most of this world's attributes are defined in base_world.py.
+    The few that aren't are defined below.
     """
     def __init__(self, lifespan=None):
         """
@@ -74,19 +44,30 @@ class World(BaseWorld):
             The number of time steps to continue the world.
         """
         BaseWorld.__init__(self, lifespan)
-        self.reward_magnitude = 1.
-        self.energy_cost = self.reward_magnitude / 100.
-        self.jump_fraction = 0.1
         self.name = 'grid_1D'
         self.name_long = 'one dimensional grid world'
         print("Entering", self.name_long)
+
         self.num_sensors = 9
         self.num_actions = 8
         self.action = np.zeros(self.num_actions)
         self.energy = 0.
+        # energy_cost : float
+        #     The punishment per position step taken.
+        self.energy_cost = 1. / 100.
+        # world_state : float
+        #     The actual position of the agent in the world.
+        #     This can be fractional.
         self.world_state = 0
+        # simple_state : int
+        #     The nearest integer position of the agent in the world.
         self.simple_state = 0
-        self.world_visualize_period = 1e3
+        # jump_fraction : float
+        #     The fraction of time steps on which the agent jumps to
+        #     a random position.
+        self.jump_fraction = 0.1
+
+        self.world_visualize_period = 1e6
         self.brain_visualize_period = 1e3
 
 
@@ -101,9 +82,9 @@ class World(BaseWorld):
 
         Returns
         -------
-        self.reward : float
+        reward : float
             The amount of reward or punishment given by the world.
-        self.sensors : array of floats
+        sensors : array of floats
             The values of each of the sensors.
         """
         self.action = action
@@ -175,11 +156,11 @@ class World(BaseWorld):
             The reward associated the set of input sensors.
         """
         reward = 0.
-        reward -= sensors[8] * self.reward_magnitude
-        reward += sensors[3] * self.reward_magnitude
+        reward -= sensors[8]
+        reward += sensors[3]
         # Punish actions just a little
         reward -= self.energy  * self.energy_cost
-        reward = np.maximum(reward, -self.reward_magnitude)
+        reward = np.maximum(reward, -1.)
 
         return reward
 

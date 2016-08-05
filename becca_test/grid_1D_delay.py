@@ -18,21 +18,8 @@ class World(Grid_1D_World):
     This task is identical to the grid_1D task with the
     exception that reward is randomly delayed a few time steps.
 
-    Attributes
-    ----------
-    future_reward : list of floats
-        The reward that has been received, but will not be delivered to
-        the agent yet. The index of the list indicates how many time
-        steps will pass before delivery occurs.
-    max_delay : int
-        The maximum number of time steps that the reward may be delayed.
-    name : str
-        A name associated with this world.
-    name_long : str
-        A longer name associated with this world.
-    world_visualize_period : int
-        The number of time steps between creating visualizations of
-        the world.
+    Most of this world's attributes are defined in base_world.py.
+    The few that aren't are defined below.
     """
     def __init__(self, lifespan=None):
         """
@@ -47,9 +34,17 @@ class World(Grid_1D_World):
         self.name = 'grid_1D_delay'
         self.name_long = 'one dimensional grid world with delay'
         print('--delayed')
+
+        # max_delay : int
+        #     The maximum number of time steps that the reward may be delayed.
         self.max_delay = 1
+        # future_reward : list of floats
+        #     The reward that has been received, but will not be delivered to
+        #     the agent yet. The index of the list indicates how many time
+        #     steps will pass before delivery occurs.
         self.future_reward = [0.] * self.max_delay
-        self.world_visualize_period = 1e4
+
+        self.world_visualize_period = 1e6
 
 
     def assign_reward(self, sensors):
@@ -73,14 +68,10 @@ class World(Grid_1D_World):
         new_reward -= self.energy  * self.energy_cost
         # Find the delay for the reward
         delay = np.random.randint(0, self.max_delay)
-        #self.future_reward[delay] += 1. / float(self.max_delay)
-        #self.future_reward[delay] = np.maximum(self.future_reward[delay], 1.)
         self.future_reward[delay] += new_reward
         # Advance the reward future by one time step
         self.future_reward.append(0.)
         reward = self.future_reward.pop(0)
-        #print('    delay', delay, 'reward', reward)
-
         return reward
 
 

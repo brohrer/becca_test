@@ -33,6 +33,9 @@ class World(BaseWorld):
     punished for eating raw or rotten fruit. This world
     is designed to force the robot to create feature
     from its sensors.
+
+    Most of this world's attributes are defined in base_world.py.
+    The few that aren't are defined below.
     """
     def __init__(self, lifespan=None):
         """
@@ -47,34 +50,36 @@ class World(BaseWorld):
         self.name = 'fruit'
         self.name_long = 'fruit selection world'
         print("Entering", self.name_long)
-        self.world_visualize_period = 1e3
+        self.world_visualize_period = 1e6
         self.brain_visualize_period = 1e3
-        """
-        Break out the sensors into
-           0: large?
-           1: small?
-           2: yellow?
-           3: purple?
-        A sample sensor array would be
-            [1., 0., 1., 0.]
-        indicating a ripe peach.
-        """
+
+        # Break out the sensors into
+        #    0: large?
+        #    1: small?
+        #    2: yellow?
+        #    3: purple?
+        # A sample sensor array would be
+        #     [1., 0., 1., 0.]
+        # indicating a ripe peach.
         self.num_sensors = 4
-        """
-        Break out the actions into
-            0: eat
-            1: discard
-        """
+
+        # Break out the actions into
+        #     0: eat
+        #     1: discard
         self.num_actions = 2
         self.actions = np.zeros(self.num_actions)
         self.reward = 0.
+
+        # acted, eat, discard : boolean
+        #     These indicate whether the Becca chose to act on this
+        #     time step, and if it did, whether it chose to eat or discard
+        #     the fruit it was presented.
         self.acted = False
         self.eat = False
         self.discard = False
 
+        # Grab a piece of fruit to get started.
         self.grab_fruit()
-        self.reward_magnitude = 1.
-        self.verbose = False
 
 
     def grab_fruit(self):
@@ -138,10 +143,10 @@ class World(BaseWorld):
         self.reward = -.1
         if ((self.eat and self.edible) or
             (self.discard and not self.edible)):
-            self.reward = self.reward_magnitude
+            self.reward = 1.
         elif ((self.eat and not self.edible) or
               (self.discard and self.edible)):
-            self.reward = -self.reward_magnitude * .9
+            self.reward = -.9
 
         if self.acted:
             self.grab_fruit()
@@ -155,7 +160,7 @@ class World(BaseWorld):
 
         Note that this is the reward for the action based on the
         previous set of sensors. This visualizaion is called right after
-        the ``step()`` method is called, so the sensors have already
+        the step() method is called, so the sensors have already
         been updated for the next loop.
         """
         state_str = ' || '.join([str(self.sensors),

@@ -1,7 +1,7 @@
 """
 Two-dimensional visual servo task
 
-Like the 1D visual servo task, this task gives BECCA a chance
+Like the 1D visual servo task, this task gives Becca a chance
 to build a comparatively large number of sensors into
 a few informative features.
 """
@@ -20,7 +20,7 @@ class World(BaseWorld):
     """
     Two-dimensional visual servo world
 
-    In this world, BECCA can direct its gaze up, down, left, and
+    In this world, Becca can direct its gaze up, down, left, and
     right, saccading about an image_data of a black square on a white
     background. It is rewarded for directing it near the center.
     Optimal performance is a reward of around .8 reward per time step.
@@ -93,6 +93,8 @@ class World(BaseWorld):
         The number of time steps between creating visualizations of
         the world.
 
+    Some of this world's attributes are defined in base_world.py.
+    The rest are defined below.
     """
     def __init__(self, lifespan=None):
         """
@@ -110,12 +112,12 @@ class World(BaseWorld):
         self.name_long = 'two dimensional visual world'
         print("Entering", self.name_long)
         self.fov_span = 5
-        # Initialize the image_data to be used as the environment
+        # Initialize the image_data to be used as the environment.
         self.image_filename = os.path.join(MODPATH, 'images', 'block_test.png')
         self.image_data = plt.imread(self.image_filename)
-        # Convert it to grayscale if it's in color
+        # Convert it to grayscale if it's in color.
         if self.image_data.shape[2] == 3:
-            # Collapse the three RGB matrices into one b/w value matrix
+            # Collapse the three RGB matrices into one b/w value matrix.
             self.image_data = np.sum(self.image_data, axis=2) / 3.0
         # Define the size of the field of view, its range of
         # allowable positions, and its initial position.
@@ -147,7 +149,7 @@ class World(BaseWorld):
         self.world_visualize_period = 1e3
         self.brain_visualize_period = 1e3
         self.print_features = False
-        # TODO: re-implment print features
+        # TODO: re-implement print features
 
 
     def step(self, action):
@@ -200,13 +202,13 @@ class World(BaseWorld):
         self.row_position = self.row_position + int(row_step)
         self.column_position = self.column_position + int(column_step)
 
-        # Respect the boundaries of the image_data
+        # Respect the boundaries of the image_data.
         self.row_position = max(self.row_position, self.row_min)
         self.row_position = min(self.row_position, self.row_max)
         self.column_position = max(self.column_position, self.column_min)
         self.column_position = min(self.column_position, self.column_max)
 
-        # At random intervals, jump to a random position in the world
+        # At random intervals, jump to a random position in the world.
         if np.random.random_sample() < self.jump_fraction:
             self.column_position = np.random.random_integers(self.column_min,
                                                              self.column_max)
@@ -215,7 +217,7 @@ class World(BaseWorld):
         self.row_history.append(self.row_position)
         self.column_history.append(self.column_position)
 
-        # Create the sensory input vector
+        # Create the sensory input vector.
         fov = self.image_data[int(self.row_position - self.fov_height / 2):
                               int(self.row_position + self.fov_height / 2),
                               int(self.column_position - self.fov_width / 2):
@@ -240,7 +242,7 @@ class World(BaseWorld):
 
     def visualize_world(self, brain):
         """
-        Show what is going on in BECCA and in the world.
+        Show what is going on in Becca and in the world.
         """
         if self.print_features:
             projections = brain.get_index_projections()[0]
@@ -252,7 +254,7 @@ class World(BaseWorld):
                 self.fov_span,
                 world_name=self.name)
 
-        # Periodically display the history and inputs as perceived by BECCA
+        # Periodically display the history and inputs as perceived by Becca.
 
         print(' '.join(["world is", str(self.timestep), "timesteps old."]))
         fig = plt.figure(11)

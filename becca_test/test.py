@@ -1,19 +1,19 @@
 """
-Connect a BECCA brain to a world and run them.
+Connect a Becca brain to a world and run them.
 
 Usage
 -----
-Test BECCA on the grid1D.py world.
+Test Becca on the grid1D.py world.
     > python -m test grid1D
         or
     > python -m test 1
 
-Test BECCA on the suite of all test worlds.
+Test Becca on the suite of all test worlds.
     > python -m test all
         or
     > python -m test 0
 
-Profile BECCA on the image2D.py world.
+Profile Becca on the image2D.py world.
     > python -m test image2D --profile 
         or
     > python -m test 9 -p 
@@ -97,7 +97,7 @@ def test_world(world_class, lifespan=1e4):
     Parameters
     ----------
     world_class : World
-        The class containing the BECCA-compatible world that the
+        The class containing the Becca-compatible world that the
         brain will be receiving sensor and reward information from and
         sending action commands to.
     testing_period : int, optional
@@ -128,7 +128,7 @@ def profile(World, lifespan=1e4):
     """
     Profile the brain's performance on the selected world.
     """
-    print('Profiling BECCA\'s performance...')
+    print('Profiling Becca\'s performance...')
     command = 'becca.connector.run(World(lifespan={0}), restore=True)'.format(
         lifespan)
     cProfile.run(command, 'becca_test.profile')
@@ -141,7 +141,7 @@ def profile(World, lifespan=1e4):
 if __name__ == '__main__':
     # Build the command line parser.
     parser = argparse.ArgumentParser(
-        description='Test BECCA on some toy worlds.')
+        description='Test Becca on some toy worlds.')
     parser.add_argument('world', default='all',
                         help=' '.join(['The test world to run.',
                                        'Choose by name or number:', 
@@ -159,7 +159,7 @@ if __name__ == '__main__':
                                        'Default value is all.']))
     parser.add_argument(
         '-p', '--profile', action='store_true',
-        help="Profile BECCA's performance.")
+        help="Profile Becca's performance.")
     parser.add_argument(
         '-t', '--lifespan', type=int, 
         help='The number of time steps (in thousands) to run the world.')

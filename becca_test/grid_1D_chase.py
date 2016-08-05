@@ -18,42 +18,13 @@ class World(BaseWorld):
     One-dimensional grid world with a moving target.
 
     In this task, the brain steps forward and backward along
-    a five-position line. The one position is rewarded. Each time
-    BECCA reaches the target, it jumps to a new position.
+    a line. Only one target position is rewarded. Each time
+    Becca reaches the target, it jumps to a new position.
     There is also a slight
     punishment for effort expended in taking actions.
-    This is intended to be a simple
-    task for troubleshooting BECCA on the full ``becca_world_chase`` task.
 
-    Attributes
-    ----------
-    action : array of float
-        The most recent set of action commands received.
-    brain_visualize_period : int
-        The number of time steps between creating a full visualization of
-        the ``brain``.
-    energy_cost : float
-        The punishment per position step taken.
-    name : str
-        A name associated with this world.
-    name_long : str
-        A longer name associated with this world.
-    num_actions : int
-        The number of action commands this world expects. This should be
-        the length of the action array received at each time step.
-    num_sensors : int
-        The number of sensor values the world returns to the brain
-        at each time step.
-    position : int
-        The position of the agent in the world.
-    reward_magnitude : float
-        The magnitude of the reward and punishment given at
-        rewarded or punished positions.
-    target_position : int
-        The position of the target in the world.
-    world_visualize_period : int
-        The number of time steps between creating visualizations of
-        the world.
+    Most of this world's attributes are defined in base_world.py.
+    The few that aren't are defined below.
     """
     def __init__(self, lifespan=None):
         """
@@ -65,21 +36,32 @@ class World(BaseWorld):
             The number of time steps to continue the world.
         """
         BaseWorld.__init__(self, lifespan)
-        self.reward_magnitude = 1.
-        self.energy_cost = self.reward_magnitude / 1e2
         self.name = 'grid_1D_chase'
         self.name_long = 'one dimensional chase grid world'
         print("Entering", self.name_long)
+
+        # size : int
+        #     The number of positions in the 1 dimensional grid.
         self.size = 7
         self.num_sensors = self.size + 2 * (self.size - 1)
         self.num_actions = 2 * (self.size - 1)
         self.reward = 0.
-        self.energy = 0.
         self.action = np.zeros(self.num_actions)
+        # energy : float
+        #     The total number of position steps attempted this time step.
+        self.energy = 0.
+        # energy_cost : float
+        #     The punishment per position step taken.
+        self.energy_cost = 1e-2
         self.sensors = np.zeros(self.num_sensors)
+        # position : int
+        #     The position of the agent in the world.
         self.position = 2
+        # target_position : int
+        #     The position of the target in the world.
         self.target_position = 1
-        self.world_visualize_period = 1e3
+
+        self.world_visualize_period = 1e6
         self.brain_visualize_period = 1e3
 
 
@@ -157,7 +139,7 @@ class World(BaseWorld):
         """
         self.reward = 0.
         if self.position == self.target_position:
-            self.reward += self.reward_magnitude
+            self.reward += 1.
         # Punish actions just a little
         self.reward -= self.energy  * self.energy_cost
 

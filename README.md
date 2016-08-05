@@ -1,10 +1,10 @@
-BECCA is a general learning program for use in any robot or embodied system.
-When using BECCA, a robot learns to do whatever it is rewarded to do, 
+Becca is a general learning program for use in any robot or embodied system.
+When using Becca, a robot learns to do whatever it is rewarded to do, 
 and continues learning throughout its lifetime. This package contains 
 some test worlds and helps to run them. This helps ensure that 
-BECCA is working as intended.
+Becca is working as intended.
 
-####Install the BECCA test worlds.
+####Install the Becca test worlds.
 
 From the command line:
 
@@ -12,7 +12,7 @@ From the command line:
 
 `becca` installs automatically when you install `becca_test`. 
 
-####Run BECCA on a decathlon of test worlds.
+####Run Becca on a decathlon of test worlds.
 
     python
     >>>import becca_test.test

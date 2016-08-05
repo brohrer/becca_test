@@ -23,64 +23,44 @@ class World(BaseWorld):
     are penalized somewhat. It also includes some inputs that are pure noise. 
     Optimal performance is a reward of about .70 per time step.
     
-    Attributes
-    ----------
-    action : array of floats
-        The most recent set of action commands received. 
-    brain_visualize_period : int
-        The number of time steps between creating a full visualization of
-        the ``brain``.
-    energy_cost : float
-        The punishment per position step taken.
-    jump_fraction : float
-        The fraction of time steps on which the agent jumps to 
-        a random position.
-    name : str
-        A name associated with this world.
-    name_long : str
-        A longer name associated with this world.
-    num_actions : int
-        The number of action commands this world expects. This should be 
-        the length of the action array received at each time step.
-    num_noise_sensors : int
-        Of the sensors, these are purely noise.
-    num_real_sensors : int
-        Of the sensors, these are the ones that represent position.
-    num_sensors : int
-        The number of sensor values the world returns to the brain 
-        at each time step.
-    reward_magnitude : float
-        The magnitude of the reward and punishment given at 
-        rewarded or punished positions.
-    simple_state : int
-        The nearest integer position of the agent in the world.
-    world_state : float
-        The actual position of the agent in the world. This can be fractional.
-    world_visualize_period : int
-        The number of time steps between creating visualizations of 
-        the world.
+    Most of this world's attributes are defined in base_world.py.
+    The few that aren't are defined below.
     """
     def __init__(self, lifespan=None, test=False):
         """
         Set up the world 
         """
         BaseWorld.__init__(self, lifespan)
-        self.reward_magnitude = 1.
-        self.energy_cost = 0.01 * self.reward_magnitude
-        self.jump_fraction = 0.1
         self.name = 'grid_1D_noise'
         self.name_long = 'noisy one dimensional grid world'
         print("Entering", self.name_long)
         self.num_real_sensors = 3
-        # Number of sensors that have no basis in the world. 
-        # These are noise meant to distract.
+        # num_noise_sensors : int
+        #     Of the sensors, these are purely noise.
+        #     These have no basis in the world and are only meant to distract.
+        # num_real_sensors : int
+        #     Of the sensors, these are the ones that represent position.
         self.num_noise_sensors = 0        
         self.num_sensors = self.num_noise_sensors + self.num_real_sensors
         self.num_actions = 2
         self.action = np.zeros(self.num_actions)
+        # energy_cost : float
+        #     The punishment per position step taken.
+        self.energy_cost = 0.01
+        # jump_fraction : float
+        #     The fraction of time steps on which the agent jumps to 
+        #     a random position.
+        self.jump_fraction = 0.1
+
+        # world_state : float
+        #     The actual position of the agent in the world.
+        #     This can be fractional.
         self.world_state = 0      
+        # simple_state : int
+        #     The nearest integer position of the agent in the world.
         self.simple_state = 0       
-        self.world_visualize_period = 1e3
+
+        self.world_visualize_period = 1e6
         self.brain_visualize_period = 1e3
 
 
@@ -105,16 +85,16 @@ class World(BaseWorld):
         self.timestep += 1 
         step_size = self.action[0] - self.action[1]
 
-        # An approximation of metabolic energy
+        # An approximation of metabolic energy.
         energy = self.action[0] + self.action[1]
         self.world_state = self.world_state + step_size
 
-        # At random intervals, jump to a random position in the world
+        # At random intervals, jump to a random position in the world.
         if np.random.random_sample() < self.jump_fraction:
             self.world_state = (self.num_real_sensors * 
                                 np.random.random_sample())
 
-        # Ensure that the world state falls between 0 and num_real_sensors 
+        # Ensure that the world state falls between 0 and num_real_sensors.
         self.world_state -= (self.num_real_sensors * 
                              np.floor_divide(self.world_state, 
                                              self.num_real_sensors))
@@ -129,9 +109,9 @@ class World(BaseWorld):
         noise_sensors = np.round(np.random.random_sample(
             self.num_noise_sensors))
         sensors = np.hstack((real_sensors, noise_sensors))
-        reward = -self.reward_magnitude
+        reward = -1.
         if self.simple_state == 1:
-            reward = self.reward_magnitude
+            reward = 1.
         reward -= energy * self.energy_cost        
 
         return sensors, reward

@@ -20,45 +20,8 @@ class World(BaseWorld):
     horizontal or vertical step taken.
     Optimal performance is a reward of about .9 per time step.
 
-    Attributes
-    ----------
-    action : array of floats
-        The most recent set of action commands received.
-    brain_visualize_period : int
-        The number of time steps between creating a full visualization of
-        the ``brain``.
-    energy_cost : float
-        The punishment per position step taken.
-    jump_fraction : float
-        The fraction of time steps on which the agent jumps to
-        a random position.
-    name : str
-        A name associated with this world.
-    name_long : str
-        A longer name associated with this world.
-    num_actions : int
-        The number of action commands this world expects. This should be
-        the length of the action array received at each time step.
-    num_sensors : int
-        The number of sensor values the world returns to the brain
-        at each time step.
-    obstacles : list of tuples of ints
-        Each tuple is a (row, column) pair indicating a location
-        that are punished.
-    reward_magnitude : float
-        The magnitude of the reward and punishment given at
-        rewarded or punished positions.
-    targets : list of tuples of ints
-        Each tuple is a (row, column) pair indicating a location
-        that is rewarded.
-    world_size : int
-        The world consists of a 2D grid of size
-        ``world_size`` by ``world_size``.
-    world_state : float
-        The actual position of the agent in the world. This can be fractional.
-    world_visualize_period : int
-        The number of time steps between creating visualizations of
-        the world.
+    Some of this world's attributes are defined in base_world.py.
+    The others are defined below.
     """
     def __init__(self, lifespan=None):
         """
@@ -70,21 +33,39 @@ class World(BaseWorld):
             The number of time steps to continue the world.
         """
         BaseWorld.__init__(self, lifespan)
-        self.reward_magnitude = 1.
-        self.energy_cost = 0.05 * self.reward_magnitude
-        self.jump_fraction = 0.1
         self.name = 'grid_2D'
         self.name_long = 'two dimensional grid world'
         print("Entering", self.name_long)
+
         self.num_actions = 8
+        # world_size : int
+        #     The world consists of a 2D grid of size
+        #     world_size by world_size.
         self.world_size = 5
         self.num_sensors = self.world_size ** 2
+        # world_state : float
+        #     The actual position of the agent in the world.
+        #     This can be fractional.
         self.world_state = np.array([1., 1.])
-        # Reward positions (2,2) and (4,4)
+        # targets : list of tuples of ints
+        #     Each tuple is a (row, column) pair indicating a location
+        #     that is rewarded.
+        #     Reward positions (2,2) and (4,4)
         self.targets = [(1, 1), (3, 3)]
-        # Punish positions (2,4) and (4,2)
         self.action = np.zeros(self.num_actions)
+        # energy_cost : float
+        #     The punishment per position step taken.
+        self.energy_cost = 0.05
+        # jump_fraction : float
+        #     The fraction of time steps on which the agent jumps to
+        #     a random position.
+        self.jump_fraction = 0.1
+        # obstacles : list of tuples of ints
+        #     Each tuple is a (row, column) pair indicating a location
+        #     that are punished.
+        #     Punish positions (2,4) and (4,2)
         self.obstacles = [(1, 3), (3, 1)]
+
         self.world_visualize_period = 1e6
         self.brain_visualize_period = 1e3
 
@@ -133,10 +114,10 @@ class World(BaseWorld):
         reward = 0.
         for obstacle in self.obstacles:
             if tuple(self.world_state) == obstacle:
-                reward = - self.reward_magnitude
+                reward = -1.
         for target in self.targets:
             if tuple(self.world_state) == target:
-                reward = self.reward_magnitude
+                reward = 1.
         reward -= self.energy_cost * energy
 
         return sensors, reward
@@ -159,7 +140,7 @@ class World(BaseWorld):
 
     def visualize_world(self, brain):
         """
-        Show the state of the world and the ``brain``.
+        Show the state of the world and the brain.
         """
         print(''.join(['state', str(self.world_state), '  action',
                        str((self.action[0:2] + 2 * self.action[2:4] -

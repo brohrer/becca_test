@@ -24,7 +24,7 @@ class World(Grid_2D_World):
 
     Attributes
     ----------
-    See ``Grid_2D_World`` for a full description of attributes.
+    See grid_2D.py for a full description of attributes.
     """
     def __init__(self, lifespan=None):
         """
@@ -51,9 +51,10 @@ class World(Grid_2D_World):
         sensors : list of floats
             The current state of the world, reflected in the sensors.
         """
-        # Sensors 0-4 represent the 5 rows of the
         sensors = np.zeros(self.num_sensors)
+        # Sensors 0-4 represent each of the 5 rows.
         sensors[int(self.world_state[0])] = 1
+        # Sensors 5-9 represent each of the 5 columns.
         sensors[int(self.world_state[1] + self.world_size)] = 1
         return sensors
 
