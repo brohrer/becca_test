@@ -13,7 +13,6 @@ import numpy as np
 
 from becca_test.base_world import World as BaseWorld
 import becca_test.world_tools as wtools
-MODPATH = os.path.dirname(os.path.abspath(__file__))
 
 
 class World(BaseWorld):
@@ -25,15 +24,8 @@ class World(BaseWorld):
     background. It is rewarded for directing it near the center.
     Optimal performance is a reward of around .8 reward per time step.
 
-    Attributes
-    ----------
-    action : array of floats
-        The most recent set of action commands received.
     block_width : int
         The width of each superpixel, in number of columns.
-    brain_visualize_period : int
-        The number of time steps between creating a full visualization of
-        the ``brain``.
     column_history : list if ints
         A time series of the location (measured in column pixels) of the
         center of the brain's field of view.
@@ -59,22 +51,9 @@ class World(BaseWorld):
         a random position.
     max_step_size : int
         The largest step size allowed, in pixels in the original image.
-    name : str
-        A name associated with this world.
-    name_long : str
-        A longer name associated with this world.
     noise_magnitude : float
         A scaling factor that drives how much inaccurate each movement
         will be.
-    num_actions : int
-        The number of action commands this world expects. This should be
-        the length of the action array received at each time step.
-    num_sensors : int
-        The number of sensor values the world returns to the brain
-        at each time step.
-    reward_magnitude : float
-        The magnitude of the reward and punishment given at
-        rewarded or punished positions.
     reward_region_width : int
         The width of the region, in number of columns, within which
         the center of the field of view gets rewarded.
@@ -89,9 +68,6 @@ class World(BaseWorld):
         The punishment per position step taken.
     target_column, target_row : int
         The row and column index that marks the center of the rewarded region.
-    world_visualize_period : int
-        The number of time steps between creating visualizations of
-        the world.
 
     Some of this world's attributes are defined in base_world.py.
     The rest are defined below.
@@ -106,14 +82,14 @@ class World(BaseWorld):
             The number of time steps to continue the world.
         """
         BaseWorld.__init__(self, lifespan)
-        self.reward_magnitude = 1.
         self.jump_fraction = .05
         self.name = 'image_2D'
         self.name_long = 'two dimensional visual world'
         print("Entering", self.name_long)
         self.fov_span = 5
         # Initialize the image_data to be used as the environment.
-        self.image_filename = os.path.join(MODPATH, 'images', 'block_test.png')
+        module_path = os.path.dirname(os.path.abspath(__file__))
+        self.image_filename = os.path.join(module_path, 'images', 'block_test.png')
         self.image_data = plt.imread(self.image_filename)
         # Convert it to grayscale if it's in color.
         if self.image_data.shape[2] == 3:
@@ -235,7 +211,7 @@ class World(BaseWorld):
         rewarded_row = (np.abs(self.row_position - self.target_row) <
                         self.reward_region_width / 2)
         if rewarded_column and rewarded_row:
-            self.reward += self.reward_magnitude
+            self.reward += 1.
 
         return self.sensors, self.reward
 
