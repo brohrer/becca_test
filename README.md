@@ -8,7 +8,7 @@ Becca is working as intended.
 
 From the command line:
 
-    pip install --pre becca_test
+    pip install becca_test
 
 `becca` installs automatically when you install `becca_test`. 
 
