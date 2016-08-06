@@ -12,6 +12,7 @@ import os
 import matplotlib.pyplot as plt
 import numpy as np
 
+import becca.connector
 from becca_test.base_world import World as BaseWorld
 import becca_test.world_tools as wtools
 
@@ -226,5 +227,4 @@ class World(BaseWorld):
 
 
 if __name__ == "__main__":
-    import becca.connector
     becca.connector.run(World())

@@ -9,6 +9,8 @@ basic sensory data into more complex features in order to do well.
 """
 from __future__ import print_function
 import numpy as np
+
+import becca.connector
 from becca_test.grid_2D import World as Grid_2D_World
 
 
@@ -60,5 +62,4 @@ class World(Grid_2D_World):
 
 
 if __name__ == "__main__":
-    import becca.connector
     becca.connector.run(World())

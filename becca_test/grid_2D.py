@@ -7,6 +7,8 @@ challenging, because can take two actions to reach a reward state.
 """
 from __future__ import print_function
 import numpy as np
+
+import becca.connector
 from becca_test.base_world import World as BaseWorld
 
 
@@ -103,7 +105,7 @@ class World(BaseWorld):
         if np.random.random_sample() < self.jump_fraction:
             self.world_state = (
                 np.random.randint(0, self.world_size,
-                                  size=self.world_state.size).astype(float))
+                                  size=len(self.world_state)).astype(float))
 
         # Enforce lower and upper limits on the grid world
         # by looping them around.
@@ -148,5 +150,4 @@ class World(BaseWorld):
 
 
 if __name__ == "__main__":
-    import becca.connector
     becca.connector.run(World())

@@ -83,7 +83,7 @@ class World(object):
     def is_alive(self):
         """
         Check whether the world is alive.
-        
+
         Once more than lifespan time steps have been completed,
         stop running.
 

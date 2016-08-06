@@ -10,6 +10,7 @@ to sensory information.
 from __future__ import print_function
 import numpy as np
 
+import becca.connector
 from becca_test.base_world import World as BaseWorld
 
 
@@ -161,5 +162,4 @@ class World(BaseWorld):
 
 
 if __name__ == "__main__":
-    import becca.connector
     becca.connector.run(World())

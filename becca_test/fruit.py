@@ -17,6 +17,7 @@ many machine learning algorithms.
 from __future__ import print_function
 import numpy as np
 
+import becca.connector
 from becca_test.base_world import World as BaseWorld
 
 
@@ -142,7 +143,7 @@ class World(BaseWorld):
         # There is a small punishment for doing nothing.
         self.reward = -.1
         if ((self.eat and self.edible) or
-            (self.discard and not self.edible)):
+                (self.discard and not self.edible)):
             self.reward = 1.
         elif ((self.eat and not self.edible) or
               (self.discard and self.edible)):
@@ -173,5 +174,4 @@ class World(BaseWorld):
 
 
 if __name__ == "__main__":
-    import becca.connector
     becca.connector.run(World())

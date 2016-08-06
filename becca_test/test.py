@@ -14,39 +14,38 @@ Test Becca on the suite of all test worlds.
     python -m test 0
 
 Profile Becca on the image2D.py world.
-    python -m test image2D --profile 
+    python -m test image2D --profile
         or
-    python -m test 9 -p 
+    python -m test 9 -p
 """
 
 from __future__ import print_function
 import argparse
 import cProfile
-import matplotlib.pyplot as plt
 import pstats
 import time
 
+import matplotlib.pyplot as plt
 import numpy as np
 
-from becca.brain import Brain
 import becca.connector
+# Import the suite of test worlds
+from becca_test.grid_1D import World as World_grid_1D
+from becca_test.grid_1D_chase import World as World_grid_1D_chase
+from becca_test.grid_1D_delay import World as World_grid_1D_delay
+from becca_test.grid_1D_ms import World as World_grid_1D_ms
+from becca_test.grid_1D_noise import World as World_grid_1D_noise
+from becca_test.grid_2D import World as World_grid_2D
+from becca_test.grid_2D_dc import World as World_grid_2D_dc
+from becca_test.image_1D import World as World_image_1D
+from becca_test.image_2D import World as World_image_2D
+from becca_test.fruit import World as World_fruit
+
 
 def suite(lifespan=1e4):
     """
     Run all the worlds in the benchmark and tabulate their performance.
     """
-    # Import the suite of test worlds
-    from becca_test.grid_1D import World as World_grid_1D
-    from becca_test.grid_1D_chase import World as World_grid_1D_chase
-    from becca_test.grid_1D_delay import World as World_grid_1D_delay
-    from becca_test.grid_1D_ms import World as World_grid_1D_ms
-    from becca_test.grid_1D_noise import World as World_grid_1D_noise
-    from becca_test.grid_2D import World as World_grid_2D
-    from becca_test.grid_2D_dc import World as World_grid_2D_dc
-    from becca_test.image_1D import World as World_image_1D
-    from becca_test.image_2D import World as World_image_2D
-    from becca_test.fruit import World as World_fruit
-
     start_time = time.time()
     performance = []
     performance.append(test_world(World_grid_1D, lifespan=lifespan))
@@ -74,7 +73,7 @@ def suite(lifespan=1e4):
         10., # image_2D
         3., # fruit
         ])
-        
+
     print('Individual test world scores:')
     scores = []
     for score in performance:
@@ -144,8 +143,8 @@ if __name__ == '__main__':
         description='Test Becca on some toy worlds.')
     parser.add_argument('world', default='all',
                         help=' '.join(['The test world to run.',
-                                       'Choose by name or number:', 
-                                       '1) grid1D,', 
+                                       'Choose by name or number:',
+                                       '1) grid1D,',
                                        '2) grid1D_chase,',
                                        '3) grid1D_delay,',
                                        '4) grid1D_ms,',
@@ -161,39 +160,29 @@ if __name__ == '__main__':
         '-p', '--profile', action='store_true',
         help="Profile Becca's performance.")
     parser.add_argument(
-        '-t', '--lifespan', type=int, 
+        '-t', '--lifespan', type=int,
         help='The number of time steps (in thousands) to run the world.')
     args = parser.parse_args()
 
-    if args.world == 'grid1D' or args.world == '1': 
-        from becca_test.grid_1D import World as World_grid_1D
+    if args.world == 'grid1D' or args.world == '1':
         World = World_grid_1D
     elif args.world == 'grid1D_chase' or args.world == '2':
-        from becca_test.grid_1D_chase import World as World_grid_1D_chase
         World = World_grid_1D_chase
     elif args.world == 'grid1D_delay' or args.world == '3':
-        from becca_test.grid_1D_delay import World as World_grid_1D_delay
         World = World_grid_1D_delay
     elif args.world == 'grid1D_ms' or args.world == '4':
-        from becca_test.grid_1D_ms import World as World_grid_1D_ms
         World = World_grid_1D_ms
     elif args.world == 'grid1D_noise' or args.world == '5':
-        from becca_test.grid_1D_noise import World as World_grid_1D_noise
         World = World_grid_1D_noise
     elif args.world == 'grid2D' or args.world == '6':
-        from becca_test.grid_2D import World as World_grid_2D
         World = World_grid_2D
     elif args.world == 'grid2D_dc' or args.world == '7':
-        from becca_test.grid_2D_dc import World as World_grid_2D_dc
         World = World_grid_2D_dc
     elif args.world == 'image1D' or args.world == '8':
-        from becca_test.image_1D import World as World_image_1D
         World = World_image_1D
     elif args.world == 'image2D' or args.world == '9':
-        from becca_test.image_2D import World as World_image_2D
         World = World_image_2D
     elif args.world == 'fruit' or args.world == '10':
-        from becca_test.fruit import World as World_fruit
         World = World_fruit
     else:
         args.world = 'all'
@@ -208,5 +197,5 @@ if __name__ == '__main__':
     elif args.profile:
         profile(World, lifespan=lifespan)
     else:
-        performance = becca.connector.run(world, restore=True)
+        performance = becca.connector.run(World, restore=True)
         print('performance:', performance)

@@ -10,25 +10,26 @@ This task is intended to break them.
 from __future__ import print_function
 import numpy as np
 
+import becca.connector
 from becca_test.base_world import World as BaseWorld
 
 
 class World(BaseWorld):
-    """ 
-    One-dimensional grid world with noise
-    
-    In this world, the agent steps forward and backward 
-    along three positions on a line. The second position is rewarded 
-    and the first and third positions are punished. Also, any actions 
-    are penalized somewhat. It also includes some inputs that are pure noise. 
+    """
+    One-dimensional grid world with noise.
+
+    In this world, the agent steps forward and backward
+    along three positions on a line. The second position is rewarded
+    and the first and third positions are punished. Also, any actions
+    are penalized somewhat. It also includes some inputs that are pure noise.
     Optimal performance is a reward of about .70 per time step.
-    
+
     Most of this world's attributes are defined in base_world.py.
     The few that aren't are defined below.
     """
-    def __init__(self, lifespan=None, test=False):
+    def __init__(self, lifespan=None):
         """
-        Set up the world 
+        Set up the world.
         """
         BaseWorld.__init__(self, lifespan)
         self.name = 'grid_1D_noise'
@@ -40,7 +41,7 @@ class World(BaseWorld):
         #     These have no basis in the world and are only meant to distract.
         # num_real_sensors : int
         #     Of the sensors, these are the ones that represent position.
-        self.num_noise_sensors = 0        
+        self.num_noise_sensors = 0
         self.num_sensors = self.num_noise_sensors + self.num_real_sensors
         self.num_actions = 2
         self.action = np.zeros(self.num_actions)
@@ -48,25 +49,25 @@ class World(BaseWorld):
         #     The punishment per position step taken.
         self.energy_cost = 0.01
         # jump_fraction : float
-        #     The fraction of time steps on which the agent jumps to 
+        #     The fraction of time steps on which the agent jumps to
         #     a random position.
         self.jump_fraction = 0.1
 
         # world_state : float
         #     The actual position of the agent in the world.
         #     This can be fractional.
-        self.world_state = 0      
+        self.world_state = 0
         # simple_state : int
         #     The nearest integer position of the agent in the world.
-        self.simple_state = 0       
+        self.simple_state = 0
 
         self.world_visualize_period = 1e6
         self.brain_visualize_period = 1e3
 
 
-    def step(self, action): 
-        """ 
-        Take one time step through the world 
+    def step(self, action):
+        """
+        Take one time step through the world
 
         Parameters
         ----------
@@ -82,7 +83,7 @@ class World(BaseWorld):
         """
         self.action = action.copy().ravel()
         self.action[np.nonzero(self.action)] = 1.
-        self.timestep += 1 
+        self.timestep += 1
         step_size = self.action[0] - self.action[1]
 
         # An approximation of metabolic energy.
@@ -91,16 +92,16 @@ class World(BaseWorld):
 
         # At random intervals, jump to a random position in the world.
         if np.random.random_sample() < self.jump_fraction:
-            self.world_state = (self.num_real_sensors * 
+            self.world_state = (self.num_real_sensors *
                                 np.random.random_sample())
 
         # Ensure that the world state falls between 0 and num_real_sensors.
-        self.world_state -= (self.num_real_sensors * 
-                             np.floor_divide(self.world_state, 
+        self.world_state -= (self.num_real_sensors *
+                             np.floor_divide(self.world_state,
                                              self.num_real_sensors))
         self.simple_state = int(np.floor(self.world_state))
 
-        # Assign sensors as zeros or ones. 
+        # Assign sensors as zeros or ones.
         # Represent the presence or absence of the current position in the bin.
         real_sensors = np.zeros(self.num_real_sensors)
         real_sensors[self.simple_state] = 1
@@ -112,16 +113,16 @@ class World(BaseWorld):
         reward = -1.
         if self.simple_state == 1:
             reward = 1.
-        reward -= energy * self.energy_cost        
+        reward -= energy * self.energy_cost
 
         return sensors, reward
 
 
     def visualize_world(self, brain):
-        """ 
+        """
         Show what's going on in the world.
         """
-        state_image = ['.'] * (self.num_real_sensors + 
+        state_image = ['.'] * (self.num_real_sensors +
                                self.num_actions + 2)
         state_image[self.simple_state] = 'O'
         state_image[self.num_real_sensors:self.num_real_sensors + 2] = '||'
@@ -132,5 +133,4 @@ class World(BaseWorld):
 
 
 if __name__ == "__main__":
-    import becca.connector
     becca.connector.run(World())

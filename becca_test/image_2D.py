@@ -11,6 +11,7 @@ import os
 import matplotlib.pyplot as plt
 import numpy as np
 
+import becca.connector
 from becca_test.base_world import World as BaseWorld
 import becca_test.world_tools as wtools
 
@@ -24,7 +25,7 @@ class World(BaseWorld):
     background. It is rewarded for directing it near the center.
     Optimal performance is a reward of around .8 reward per time step.
 
-    
+
     Some of this world's attributes are defined in base_world.py.
     The rest are defined below.
     """
@@ -41,7 +42,7 @@ class World(BaseWorld):
         self.name = 'image_2D'
         self.name_long = 'two dimensional visual world'
         print("Entering", self.name_long)
-        
+
         # fov_span : int
         #     The world pixelizes its field of view into a superpixel array
         #     that is ``fov_span`` X ``fov_span``.
@@ -117,10 +118,10 @@ class World(BaseWorld):
         self.world_visualize_period = 1e6
         self.brain_visualize_period = 1e3
         # print_features : boolean
-        #     Indicate whether to visualize each of the features individually. 
+        #     Indicate whether to visualize each of the features individually.
         #     TODO: re-implement print features
         self.print_features = False
-        
+
 
     def step(self, action):
         """
@@ -198,7 +199,7 @@ class World(BaseWorld):
                                                         self.fov_span)
         unsplit_sensors = center_surround_pixels.ravel()
         # Center surround values vary between -1 and 1. One means light
-        # surrounded by dark, one means dark surrounded by light. 
+        # surrounded by dark, one means dark surrounded by light.
         # Split them each into
         # two sensors, and stack the sets of positive and negative sensors
         # together to complete the sensor array.
@@ -262,5 +263,4 @@ class World(BaseWorld):
 
 
 if __name__ == "__main__":
-    import becca.connector
     becca.connector.run(World())

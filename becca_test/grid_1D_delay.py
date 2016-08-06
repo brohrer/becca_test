@@ -8,6 +8,7 @@ makes the task challenging.
 from __future__ import print_function
 import numpy as np
 
+import becca.connector
 from becca_test.grid_1D import World as Grid_1D_World
 
 
@@ -90,5 +91,4 @@ class World(Grid_1D_World):
 
 
 if __name__ == "__main__":
-    import becca.connector
     becca.connector.run(World())
