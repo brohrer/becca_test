@@ -4,7 +4,7 @@ and continues learning throughout its lifetime. This package contains
 some test worlds and helps to run them. This helps ensure that 
 Becca is working as intended.
 
-####Install the Becca test worlds.
+#### Install the Becca test worlds.
 
 From the command line:
 
@@ -12,17 +12,31 @@ From the command line:
 
 `becca` installs automatically when you install `becca_test`. 
 
-####Run Becca on a decathlon of test worlds.
+#### Run Becca on a decathlon of test worlds.
 
     python
     >>>import becca_test.test
     >>>becca_test.test.suite()
     
-####Run a single world.
+#### Test Becca from the command line.
 
 To run the test world `grid_1D.py` from the command line:
 
     python -m grid_1D
+        or
+    python -m test 1
+
+To test Becca on the suite of all test worlds.
+
+    python -m test all
+        or
+    python -m test 0
+
+To profile Becca on the image2D.py world.
+
+    python -m test image2D --profile
+        or
+    python -m test 9 -p
 
 <a href="url"><img src="https://github.com/brohrer/becca-docs/raw/master/figs/logo_plate.png" 
 align="center" height="40" width="120" ></a>
