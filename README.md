@@ -16,7 +16,7 @@ From the command line:
 
     python
     >>>import becca_test.test
-    >>>becca-test.test.suite()
+    >>>becca_test.test.suite()
     
 ####Run a single world.
 
