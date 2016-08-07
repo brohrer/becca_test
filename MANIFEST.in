@@ -1,0 +1,4 @@
+include becca_test/images/*.png
+include becca_test/log/README
+include becca_test/LICENSE
+include README.md
