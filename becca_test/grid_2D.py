@@ -9,7 +9,7 @@ from __future__ import print_function
 import numpy as np
 
 import becca.connector
-from becca_test.base_world import World as BaseWorld
+from becca.base_world import World as BaseWorld
 
 
 class World(BaseWorld):
@@ -35,6 +35,7 @@ class World(BaseWorld):
             The number of time steps to continue the world.
         """
         BaseWorld.__init__(self, lifespan)
+        #self.lifespan = 1e9
         self.name = 'grid_2D'
         self.name_long = 'two dimensional grid world'
         print("Entering", self.name_long)
@@ -68,7 +69,7 @@ class World(BaseWorld):
         #     Punish positions (2,4) and (4,2)
         self.obstacles = [(1, 3), (3, 1)]
 
-        self.world_visualize_period = 1e6
+        self.world_visualize_period = 1e3
         self.brain_visualize_period = 1e3
 
 

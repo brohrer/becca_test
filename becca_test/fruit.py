@@ -18,7 +18,7 @@ from __future__ import print_function
 import numpy as np
 
 import becca.connector
-from becca_test.base_world import World as BaseWorld
+from becca.base_world import World as BaseWorld
 
 
 class World(BaseWorld):

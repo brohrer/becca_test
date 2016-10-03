@@ -13,8 +13,9 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 import becca.connector
-from becca_test.base_world import World as BaseWorld
+from becca.base_world import World as BaseWorld
 import becca_test.world_tools as wtools
+import becca_toolbox.feature_tools as ft
 
 
 class World(BaseWorld):
@@ -194,8 +195,45 @@ class World(BaseWorld):
         """
         Show what's going on in the world.
         """
+        '''
         if self.print_features:
-            projections = brain.cortex.get_index_projections(to_screen=True)[0]
+            feature_set = ft.get_feature_set(brain)
+        for i_level, level_features in enumerate(feature_set):
+            print('Features in level', i_level)
+            for i_feature, feature in enumerate(level_features):
+                print('Feature', i_feature, 'level', i_level)
+                fig = plt.figure(num=99)
+                fig.clf()
+                fig, axarr = plt.subplots(1, 2 ** (i_level + 1),
+                                          num=99, figsize=(3 * world.width,
+                                                           3 * world.depth))
+                for i_snap, snap in enumerate(feature):
+                    print('    ', i_snap, ':', np.where(snap > 0)[0])
+                    axis = axarr[i_snap]
+                    # Convert projection to sensor activities
+                    world.convert_sensors_to_detectors(snap)
+                    plot_robot(world, axis, 0., 0., np.pi/2)
+                    plot_sensors(world, axis, 0., 0., np.pi/2)
+
+                for axis in axarr:
+                    plt.sca(axis)
+                    plt.axis('equal')
+                    plt.axis('off')
+                    plt.ylim((-world.depth, world.depth))
+                    plt.xlim((-world.width, world.width))
+
+                fig.canvas.draw()
+
+                filename = '_'.join(('level', str(i_level).zfill(2),
+                                     'sequence', str(i_feature).zfill(4),
+                                     world.name, 'world.png'))
+                full_filename = os.path.join(world.features_directory,
+                                             filename)
+                plt.title(filename)
+                plt.savefig(full_filename, format='png')
+                
+
+            projections = brain.get_index_projections()[0]
             wtools.print_pixel_array_features(
                 projections,
                 self.fov_span ** 2 * 2,
@@ -224,7 +262,7 @@ class World(BaseWorld):
         plt.title("Image sensed")
         fig.show()
         fig.canvas.draw()
-
+        '''
 
 if __name__ == "__main__":
     becca.connector.run(World())

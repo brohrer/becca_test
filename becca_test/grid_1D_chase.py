@@ -11,7 +11,7 @@ from __future__ import print_function
 import numpy as np
 
 import becca.connector
-from becca_test.base_world import World as BaseWorld
+from becca.base_world import World as BaseWorld
 
 
 class World(BaseWorld):
@@ -48,6 +48,10 @@ class World(BaseWorld):
         self.num_actions = 2 * (self.size - 1)
         self.reward = 0.
         self.action = np.zeros(self.num_actions)
+        # jump_fraction : float
+        #     The approximate fraction of time steps in which to make a
+        #     random jump of the target to a new position.
+        self.jump_fraction = .1
         # energy : float
         #     The total number of position steps attempted this time step.
         self.energy = 0.
@@ -130,6 +134,11 @@ class World(BaseWorld):
         """
         Move the target to a new position that is not already occupied.
         """
+        # Periodically, make a random jump to a new target position.
+        #if np.random.random_sample() < self.jump_fraction:
+        #    self.target_position = int(np.random.randint(self.size))
+
+        # Make sure the target isn't sitting at the agent's position.
         while self.target_position == self.position:
             self.target_position = int(np.random.randint(self.size))
 
