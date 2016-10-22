@@ -191,6 +191,7 @@ if __name__ == '__main__':
         lifespan = 1e4
     else:
         lifespan = args.lifespan * 1000
+        print('Lifespan set to {0} time steps.'.format(lifespan))
 
     if args.world == 'all':
         suite(lifespan=lifespan)
