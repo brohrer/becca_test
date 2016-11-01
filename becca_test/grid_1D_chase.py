@@ -134,10 +134,6 @@ class World(BaseWorld):
         """
         Move the target to a new position that is not already occupied.
         """
-        # Periodically, make a random jump to a new target position.
-        #if np.random.random_sample() < self.jump_fraction:
-        #    self.target_position = int(np.random.randint(self.size))
-
         # Make sure the target isn't sitting at the agent's position.
         while self.target_position == self.position:
             self.target_position = int(np.random.randint(self.size))

@@ -231,7 +231,7 @@ class World(BaseWorld):
                                              filename)
                 plt.title(filename)
                 plt.savefig(full_filename, format='png')
-                
+
 
             projections = brain.get_index_projections()[0]
             wtools.print_pixel_array_features(

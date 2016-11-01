@@ -35,7 +35,6 @@ class World(BaseWorld):
             The number of time steps to continue the world.
         """
         BaseWorld.__init__(self, lifespan)
-        #self.lifespan = 1e9
         self.name = 'grid_2D'
         self.name_long = 'two dimensional grid world'
         print("Entering", self.name_long)

@@ -24,19 +24,19 @@ To run the test world `grid_1D.py` from the command line:
 
     python -m grid_1D
         or
-    python -m test 1
+    python -m test --world 1
 
 To test Becca on the suite of all test worlds.
 
-    python -m test all
+    python -m test
         or
-    python -m test 0
+    python -m test --world all
 
 To profile Becca on the image2D.py world.
 
-    python -m test image2D --profile
+    python -m test --world image2D --profile
         or
-    python -m test 9 -p
+    python -m test -w 9 -p
 
 <a href="url"><img src="https://github.com/brohrer/becca-docs/raw/master/figs/logo_plate.png" 
 align="center" height="40" width="120" ></a>

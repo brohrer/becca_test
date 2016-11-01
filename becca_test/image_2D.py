@@ -51,7 +51,8 @@ class World(BaseWorld):
         module_path = os.path.dirname(os.path.abspath(__file__))
         # image_filename : str
         #     The file name of the image including the relative path.
-        self.image_filename = os.path.join(module_path, 'images', 'block_test.png')
+        self.image_filename = os.path.join(
+            module_path, 'images', 'block_test.png')
         # image_data : array of floats
         #     The image, read in and stored as a 2D numpy array.
         self.image_data = plt.imread(self.image_filename)
@@ -67,7 +68,8 @@ class World(BaseWorld):
         #     The largest step size allowed, in pixels in the original image.
         self.max_step_size = im_size / 2
         # target_column, target_row : int
-        #     The row and column index that marks the center of the rewarded region.
+        #     The row and column index that marks the center
+        #     of the rewarded region.
         self.target_column = im_width / 2
         self.target_row = im_height / 2
         # reward_region_width : int
@@ -88,17 +90,18 @@ class World(BaseWorld):
         self.fov_height = im_size * self.fov_fraction
         self.fov_width = self.fov_height
         # column_min, column_max, row_min, row_max : int
-        #     The low and high bounds on where the field of view can be centered.
+        #     The low and high bounds on where the field of view
+        #     can be centered.
         self.column_min = int(np.ceil(self.fov_width / 2))
         self.column_max = int(np.floor(im_width - self.column_min))
         self.row_min = int(np.ceil(self.fov_height / 2))
         self.row_max = int(np.floor(im_height - self.row_min))
         # column_position, row_position : int
         #     The current location of the center of the field of view.
-        self.column_position = np.random.random_integers(self.column_min,
-                                                         self.column_max)
-        self.row_position = np.random.random_integers(self.row_min,
-                                                      self.row_max)
+        self.column_position = np.random.random_integers(
+            self.column_min, self.column_max)
+        self.row_position = np.random.random_integers(
+            self.row_min, self.row_max)
 
         self.num_sensors = 2 * self.fov_span ** 2
         self.num_actions = 16
@@ -111,8 +114,8 @@ class World(BaseWorld):
         self.jump_fraction = .05
         self.reward = 0.
         # column_history, row_history : list if ints
-        #     A time series of the location (measured in column or row pixels) of the
-        #     center of the brain's field of view.
+        #     A time series of the location (measured in column or row pixels)
+        #     of the center of the brain's field of view.
         self.column_history = []
         self.row_history = []
         self.world_visualize_period = 1e6
@@ -203,8 +206,9 @@ class World(BaseWorld):
         # Split them each into
         # two sensors, and stack the sets of positive and negative sensors
         # together to complete the sensor array.
-        self.sensors = np.concatenate((np.maximum(unsplit_sensors, 0),
-                                       np.abs(np.minimum(unsplit_sensors, 0))))
+        self.sensors = np.concatenate((
+            np.maximum(unsplit_sensors, 0),
+            np.abs(np.minimum(unsplit_sensors, 0))))
 
         self.reward = 0
         rewarded_column = (np.abs(self.column_position - self.target_column) <
@@ -232,7 +236,6 @@ class World(BaseWorld):
                 world_name=self.name)
 
         # Periodically display the history and inputs as perceived by Becca.
-
         print(' '.join(["world is", str(self.timestep), "timesteps old."]))
         fig = plt.figure(11)
         plt.clf()

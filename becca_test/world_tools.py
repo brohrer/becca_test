@@ -114,7 +114,7 @@ def print_pixel_array_features(projections,
         Twice the number of center-surround superpixels.
     projections : list of list of array of floats
         This is the set of all the projections of all the features from
-        all the ``ZipTie``s onto sensors.
+        all the Zipties onto sensors.
     start_index : int
         Which index in the projection arrays marks the beginning of
         the center-surround sensors.
@@ -147,15 +147,16 @@ def print_pixel_array_features(projections,
             plt.savefig(full_filename, format='png')
 
 
-def visualize_pixel_array_feature(sensors,
-                                  fov_horz_span=None,
-                                  fov_vert_span=None,
-                                  level_index=-1,
-                                  feature_index=-1,
-                                  world_name=None,
-                                  save_png=False,
-                                  filename='log/feature',
-                                  array_only=False):
+def visualize_pixel_array_feature(
+        sensors,
+        fov_horz_span=None,
+        fov_vert_span=None,
+        level_index=-1,
+        feature_index=-1,
+        world_name=None,
+        save_png=False,
+        filename='log/feature',
+        array_only=False):
     """
     Show a visual approximation of an array of center-surround sensorss.
 

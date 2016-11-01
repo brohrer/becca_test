@@ -4,19 +4,19 @@ Connect a Becca brain to a world and run them.
 Command line usage
 -----
 Test Becca on the grid1D.py world.
-    python -m test grid1D
+    python -m test --world grid1D
         or
-    python -m test 1
+    python -m test -w 1
 
 Test Becca on the suite of all test worlds.
-    python -m test all
+    python -m test
         or
-    python -m test 0
+    python -m test -w all
 
 Profile Becca on the image2D.py world.
-    python -m test image2D --profile
+    python -m test -w image2D --profile
         or
-    python -m test 9 -p
+    python -m test -w 9 -p
 """
 
 from __future__ import print_function
@@ -99,7 +99,7 @@ def test_world(world_class, lifespan=1e4):
         The class containing the Becca-compatible world that the
         brain will be receiving sensor and reward information from and
         sending action commands to.
-    testing_period : int, optional
+    lifespan : int, optional
         The number of time steps to test the brain
         on the current world.
 
@@ -141,7 +141,7 @@ if __name__ == '__main__':
     # Build the command line parser.
     parser = argparse.ArgumentParser(
         description='Test Becca on some toy worlds.')
-    parser.add_argument('world', default='all',
+    parser.add_argument('-w', '--world', default='all',
                         help=' '.join(['The test world to run.',
                                        'Choose by name or number:',
                                        '1) grid_1D,',
@@ -164,7 +164,9 @@ if __name__ == '__main__':
         help='The number of time steps (in thousands) to run the world.')
     args = parser.parse_args()
 
-    if args.world == 'grid_1D' or args.world == '1':
+    if args.world is None:
+        args.world = 'all'
+    elif args.world == 'grid_1D' or args.world == '1':
         World = World_grid_1D
     elif args.world == 'grid_1D_chase' or args.world == '2':
         World = World_grid_1D_chase
@@ -188,16 +190,16 @@ if __name__ == '__main__':
         args.world = 'all'
 
     if args.lifespan is None:
-        lifespan = 1e4
+        lifespan_arg = 1e4
     else:
-        lifespan = args.lifespan * 1000
-        print('Lifespan set to {0} time steps.'.format(lifespan))
+        lifespan_arg = args.lifespan * 1000
+        print('Lifespan set to {0} time steps.'.format(lifespan_arg))
 
     if args.world == 'all':
-        suite(lifespan=lifespan)
+        suite(lifespan=lifespan_arg)
     elif args.profile:
-        profile(World, lifespan=lifespan)
+        profile(World, lifespan=lifespan_arg)
     else:
-        world = World(lifespan=lifespan)
-        performance = becca.connector.run(world, restore=True)
-        print('performance:', performance)
+        world_arg = World(lifespan=lifespan_arg)
+        performance_out = becca.connector.run(world_arg, restore=True)
+        print('performance:', performance_out)
