@@ -41,7 +41,7 @@ class World(BaseWorld):
         #     These have no basis in the world and are only meant to distract.
         # num_real_sensors : int
         #     Of the sensors, these are the ones that represent position.
-        self.num_noise_sensors = 0
+        self.num_noise_sensors = 10
         self.num_sensors = self.num_noise_sensors + self.num_real_sensors
         self.num_actions = 2
         self.action = np.zeros(self.num_actions)

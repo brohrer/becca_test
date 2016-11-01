@@ -62,13 +62,13 @@ def suite(lifespan=1e4):
 
     # Some tests are harder than others. Weight them accordingly.
     weights = np.array([
-        1., # grid1D
-        1., # grid1D_chase
-        1., # grid1D_delay
-        1., # grid1D_ms
-        1., # grid1D_noise
-        3., # grid2D
-        4., # grid2D_dc
+        1., # grid_1D
+        1., # grid_1D_chase
+        1., # grid_1D_delay
+        1., # grid_1D_ms
+        1., # grid_1D_noise
+        3., # grid_2D
+        4., # grid_2D_dc
         5., # image_1D
         10., # image_2D
         3., # fruit
@@ -144,15 +144,15 @@ if __name__ == '__main__':
     parser.add_argument('world', default='all',
                         help=' '.join(['The test world to run.',
                                        'Choose by name or number:',
-                                       '1) grid1D,',
-                                       '2) grid1D_chase,',
-                                       '3) grid1D_delay,',
-                                       '4) grid1D_ms,',
-                                       '5) grid1D_noise,',
-                                       '6) grid2D,',
-                                       '7) grid2D_dc,',
-                                       '8) image1D,',
-                                       '9) image2D,',
+                                       '1) grid_1D,',
+                                       '2) grid_1D_chase,',
+                                       '3) grid_1D_delay,',
+                                       '4) grid_1D_ms,',
+                                       '5) grid_1D_noise,',
+                                       '6) grid_2D,',
+                                       '7) grid_2D_dc,',
+                                       '8) image_1D,',
+                                       '9) image_2D,',
                                        '10) fruit,',
                                        '0) all',
                                        'Default value is all.']))
@@ -164,23 +164,23 @@ if __name__ == '__main__':
         help='The number of time steps (in thousands) to run the world.')
     args = parser.parse_args()
 
-    if args.world == 'grid1D' or args.world == '1':
+    if args.world == 'grid_1D' or args.world == '1':
         World = World_grid_1D
-    elif args.world == 'grid1D_chase' or args.world == '2':
+    elif args.world == 'grid_1D_chase' or args.world == '2':
         World = World_grid_1D_chase
-    elif args.world == 'grid1D_delay' or args.world == '3':
+    elif args.world == 'grid_1D_delay' or args.world == '3':
         World = World_grid_1D_delay
-    elif args.world == 'grid1D_ms' or args.world == '4':
+    elif args.world == 'grid_1D_ms' or args.world == '4':
         World = World_grid_1D_ms
-    elif args.world == 'grid1D_noise' or args.world == '5':
+    elif args.world == 'grid_1D_noise' or args.world == '5':
         World = World_grid_1D_noise
-    elif args.world == 'grid2D' or args.world == '6':
+    elif args.world == 'grid_2D' or args.world == '6':
         World = World_grid_2D
-    elif args.world == 'grid2D_dc' or args.world == '7':
+    elif args.world == 'grid_2D_dc' or args.world == '7':
         World = World_grid_2D_dc
-    elif args.world == 'image1D' or args.world == '8':
+    elif args.world == 'image_1D' or args.world == '8':
         World = World_image_1D
-    elif args.world == 'image2D' or args.world == '9':
+    elif args.world == 'image_2D' or args.world == '9':
         World = World_image_2D
     elif args.world == 'fruit' or args.world == '10':
         World = World_fruit
@@ -198,5 +198,6 @@ if __name__ == '__main__':
     elif args.profile:
         profile(World, lifespan=lifespan)
     else:
-        performance = becca.connector.run(World, restore=True)
+        world = World(lifespan=lifespan)
+        performance = becca.connector.run(world, restore=True)
         print('performance:', performance)

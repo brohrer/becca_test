@@ -66,7 +66,7 @@ class World(BaseWorld):
         #     The position of the target in the world.
         self.target_position = 1
 
-        self.world_visualize_period = 1#e6
+        self.world_visualize_period = 1e6
         self.brain_visualize_period = 1e3
 
 
