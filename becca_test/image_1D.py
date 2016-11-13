@@ -15,7 +15,7 @@ import numpy as np
 import becca.connector
 from becca.base_world import World as BaseWorld
 import becca_test.world_tools as wtools
-import becca_toolbox.feature_tools as ft
+
 
 
 class World(BaseWorld):
@@ -231,7 +231,7 @@ class World(BaseWorld):
                                              filename)
                 plt.title(filename)
                 plt.savefig(full_filename, format='png')
-                
+
 
             projections = brain.get_index_projections()[0]
             wtools.print_pixel_array_features(
