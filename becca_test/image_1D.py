@@ -15,7 +15,7 @@ import numpy as np
 import becca.connector
 from becca.base_world import World as BaseWorld
 import becca_test.world_tools as wtools
-import becca_toolbox.feature_tools as ft
+
 
 
 class World(BaseWorld):
