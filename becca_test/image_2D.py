@@ -118,8 +118,7 @@ class World(BaseWorld):
         #     of the center of the brain's field of view.
         self.column_history = []
         self.row_history = []
-        self.world_visualize_period = 1e6
-        self.brain_visualize_period = 1e3
+        self.visualize_interval = 1e6
         # print_features : boolean
         #     Indicate whether to visualize each of the features individually.
         #     TODO: re-implement print features
@@ -221,7 +220,7 @@ class World(BaseWorld):
         return self.sensors, self.reward
 
 
-    def visualize_world(self, brain):
+    def visualize(self, brain):
         """
         Show what is going on in Becca and in the world.
         """

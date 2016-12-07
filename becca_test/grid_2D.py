@@ -68,8 +68,7 @@ class World(BaseWorld):
         #     Punish positions (2,4) and (4,2)
         self.obstacles = [(1, 3), (3, 1)]
 
-        self.world_visualize_period = 1e3
-        self.brain_visualize_period = 1e3
+        self.visualize_interval = 1e3
 
 
     def step(self, action):
@@ -140,7 +139,7 @@ class World(BaseWorld):
         return sensors
 
 
-    def visualize_world(self, brain):
+    def visualize(self, brain):
         """
         Show the state of the world and the brain.
         """

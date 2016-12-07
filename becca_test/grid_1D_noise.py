@@ -61,8 +61,7 @@ class World(BaseWorld):
         #     The nearest integer position of the agent in the world.
         self.simple_state = 0
 
-        self.world_visualize_period = 1e6
-        self.brain_visualize_period = 1e3
+        self.visualize_interval = 1e6
 
 
     def step(self, action):
@@ -118,7 +117,7 @@ class World(BaseWorld):
         return sensors, reward
 
 
-    def visualize_world(self, brain):
+    def visualize(self, brain):
         """
         Show what's going on in the world.
         """

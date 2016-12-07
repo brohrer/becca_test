@@ -45,7 +45,7 @@ class World(Grid_1D_World):
         #     steps will pass before delivery occurs.
         self.future_reward = [0.] * self.max_delay
 
-        self.world_visualize_period = 1e6
+        self.visualize_interval = 1e6
 
 
     def assign_reward(self, sensors):
@@ -76,7 +76,7 @@ class World(Grid_1D_World):
         return reward
 
 
-    def visualize_world(self, brain):
+    def visualize(self, brain):
         """
         Show what's going on in the world.
         """

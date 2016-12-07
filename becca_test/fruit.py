@@ -51,8 +51,7 @@ class World(BaseWorld):
         self.name = 'fruit'
         self.name_long = 'fruit selection world'
         print("Entering", self.name_long)
-        self.world_visualize_period = 1e6
-        self.brain_visualize_period = 1e3
+        self.visualize_interval = 1e6
 
         # Break out the sensors into
         #    0: large?
@@ -155,7 +154,7 @@ class World(BaseWorld):
         return self.sensors, self.reward
 
 
-    def visualize_world(self, brain):
+    def visualize(self, brain):
         """
         Show what's going on in the world.
 

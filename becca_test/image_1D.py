@@ -57,8 +57,7 @@ class World(BaseWorld):
         #     The punishment per position step taken.
         self.step_cost = .1
 
-        self.world_visualize_period = 1e6
-        self.brain_visualize_period = 1e3
+        self.visualize_interval = 1e6
         # print_features : bool
         #     If True, plot and save visualizations of each of the features
         #     each time the world is visualized,
@@ -191,7 +190,7 @@ class World(BaseWorld):
         return self.sensors, self.reward
 
 
-    def visualize_world(self, brain):
+    def visualize(self, brain):
         """
         Show what's going on in the world.
         """
