@@ -38,8 +38,10 @@ class World(BaseWorld):
         print("Entering", self.name_long)
 
         self.num_sensors = 9
+        self.num_positions = self.num_sensors
         self.num_actions = 2
         self.action = np.zeros(self.num_actions)
+        self.energy = 0.
         # energy_cost : float
         #     The punishment per position step taken.
         self.energy_cost = 0.01
@@ -53,7 +55,7 @@ class World(BaseWorld):
         self.world_state = 0
         # simple_state : int
         #     The nearest integer position of the agent in the world.
-        self.simple_state = 0
+        self.simple_state = 1
 
         self.visualize_interval = 1e6
 
@@ -77,42 +79,62 @@ class World(BaseWorld):
         self.action = action
         self.action = np.round(self.action)
         self.timestep += 1
-        energy = self.action[0] + self.action[1]
+        self.energy = self.action[0] + self.action[1]
         self.world_state += self.action[0] - self.action[1]
         # Occasionally add a perturbation to the action to knock it
         # into a different state.
         if np.random.random_sample() < self.jump_fraction:
-            self.world_state = self.num_sensors * np.random.random_sample()
+            self.world_state = self.num_positions * np.random.random_sample()
         # Ensure that the world state falls between 0 and 9
-        self.world_state -= self.num_sensors * np.floor_divide(
-            self.world_state, self.num_sensors)
+        self.world_state -= self.num_positions * np.floor_divide(
+            self.world_state, self.num_positions)
         self.simple_state = int(np.floor(self.world_state))
         if self.simple_state == 9:
             self.simple_state = 0
+        sensors = self.sense()
+        reward = self.assign_reward()
+        return sensors, reward
+
+    def sense(self):
+        """
+        Generate the appropriate sensor values for the current state.
+        """
         # Assign sensors as zeros or ones.
         # Represent the presence or absence of the current position in the bin.
         sensors = np.zeros(self.num_sensors)
         sensors[self.simple_state] = 1
-        # Assign reward based on the current state.
-        reward = sensors[8] * -1.
-        reward += sensors[3]
-        # Punish actions just a little.
-        reward -= energy * self.energy_cost
-        reward = np.max(reward, -1)
-        return sensors, reward
+        return sensors
+        
+    def assign_reward(self):
+        """
+        Calculate the total reward corresponding to the current state
 
+        Returns
+        -------
+        reward : float
+            The reward associated the set of input sensors.
+        """
+        reward = 0.
+        if int(self.world_state) == 3:
+            reward += 1.
+        if int(self.world_state) == 8:
+            reward -= 1.
+        # Punish actions just a little
+        reward -= self.energy  * self.energy_cost
+        reward = np.maximum(reward, -1.)
+        return reward
 
     def visualize(self, brain):
         """
         Show what's going on in the world.
         """
         state_image = ['.'] * (self.num_sensors + self.num_actions + 2)
-        state_image[self.simple_state] = 'O'
-        state_image[self.num_sensors:self.num_sensors + 2] = '||'
+        state_image[int(self.world_state)] = 'O'
+        state_image[self.num_positions:self.num_positions + 2] = '||'
         action_index = np.where(self.action > 0.1)[0]
         if action_index.size > 0:
             for i in range(action_index.size):
-                state_image[self.num_sensors + 2 + action_index[i]] = 'x'
+                state_image[self.num_positions + 2 + action_index[i]] = 'x'
         print(''.join(state_image))
 
 

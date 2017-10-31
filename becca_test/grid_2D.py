@@ -68,7 +68,7 @@ class World(BaseWorld):
         #     Punish positions (2,4) and (4,2)
         self.obstacles = [(1, 3), (3, 1)]
 
-        self.visualize_interval = 1e3
+        #self.visualize_interval = 1e3
 
 
     def step(self, action):
@@ -109,7 +109,7 @@ class World(BaseWorld):
         # Enforce lower and upper limits on the grid world
         # by looping them around.
         self.world_state = np.remainder(self.world_state, self.world_size)
-        sensors = self.assign_sensors()
+        sensors = self.sense()
 
         # Assign the reward appropriate to the current state.
         reward = 0.
@@ -124,7 +124,7 @@ class World(BaseWorld):
         return sensors, reward
 
 
-    def assign_sensors(self):
+    def sense(self):
         """
         Construct the sensor array from the state information.
 
@@ -139,7 +139,7 @@ class World(BaseWorld):
         return sensors
 
 
-    def visualize(self, brain):
+    def visualize(self):
         """
         Show the state of the world and the brain.
         """

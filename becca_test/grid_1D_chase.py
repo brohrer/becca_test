@@ -116,18 +116,29 @@ class World(BaseWorld):
         self.assign_reward()
         self.move_target()
 
-        self.sensors = np.zeros(self.num_sensors)
-        # Sense the agent's presence in each bin.
-        self.sensors[self.position] = 1
-        # Sense the relative distance to the target.
-        distance = self.position - self.target_position
-        if distance < 0:
-            self.sensors[self.size - 1 + np.abs(distance)] = 1
-        else:
-            self.sensors[2 * (self.size - 1) + np.abs(distance)] = 1
+        self.sensors = self.sense()
 
         return self.sensors, self.reward
 
+    def sense(self):
+        """
+        Represent the world's internal state as an array of sensors.
+
+        Returns
+        -------
+        array of floats
+            The set of sensor values.
+        """
+        sensors = np.zeros(self.num_sensors)
+        # Sense the agent's presence in each bin.
+        sensors[self.position] = 1
+        # Sense the relative distance to the target.
+        distance = self.position - self.target_position
+        if distance < 0:
+            sensors[self.size - 1 + np.abs(distance)] = 1
+        else:
+            sensors[2 * (self.size - 1) + np.abs(distance)] = 1
+        return sensors
 
     def move_target(self):
         """
@@ -149,7 +160,7 @@ class World(BaseWorld):
         self.reward -= self.energy  * self.energy_cost
 
 
-    def visualize(self, brain):
+    def visualize(self):
         """
         Show what's going on in the world.
         """

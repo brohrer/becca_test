@@ -48,23 +48,21 @@ class World(Grid_1D_World):
         self.visualize_interval = 1e6
 
 
-    def assign_reward(self, sensors):
+    def assign_reward(self):
         """
         Calcuate the reward corresponding to the current state and assign
         it to a future time step.
-
-        Parameters
-        ----------
-        sensors : array of floats
-            The current sensor values.
 
         Returns
         -------
         reward : float
             The reward associated the set of input sensors.
         """
-        new_reward = -sensors[8]
-        new_reward += sensors[3]
+        new_reward = 0.
+        if int(self.world_state) == 3:
+            new_reward +=1.
+        if int(self.world_state) == 8:
+            new_reward -=1.
         # Punish actions just a little
         new_reward -= self.energy  * self.energy_cost
         # Find the delay for the reward
@@ -76,17 +74,17 @@ class World(Grid_1D_World):
         return reward
 
 
-    def visualize(self, brain):
+    def visualize(self, brain=None):
         """
         Show what's going on in the world.
         """
-        state_image = ['.'] * (self.num_sensors + self.num_actions + 2)
+        state_image = ['.'] * (self.num_positions + self.num_actions + 2)
         state_image[self.simple_state] = 'O'
-        state_image[self.num_sensors:self.num_sensors + 2] = '||'
+        state_image[self.num_positions:self.num_positions + 2] = '||'
         action_index = np.where(self.action > 0.1)[0]
         if action_index.size > 0:
             for i in range(action_index.size):
-                state_image[self.num_sensors + 2 + action_index[i]] = 'x'
+                state_image[self.num_positions + 2 + action_index[i]] = 'x'
         print(''.join(state_image))
 
 

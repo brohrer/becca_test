@@ -50,6 +50,7 @@ class World(BaseWorld):
         print("Entering", self.name_long)
 
         self.num_sensors = 9
+        self.num_positions = self.num_sensors
         self.num_actions = 8
         self.action = np.zeros(self.num_actions)
         self.energy = 0.
@@ -120,35 +121,39 @@ class World(BaseWorld):
                        self.action[6] * 3 +
                        self.action[7] * 4)
 
-        self.world_state = self.world_state + step_size
+        self.world_state += step_size
 
         # At random intervals, jump to a random position in the world.
         if np.random.random_sample() < self.jump_fraction:
-            self.world_state = self.num_sensors * np.random.random_sample()
+            self.world_state = self.num_positions * np.random.random_sample()
 
         # Ensure that the world state falls between 0 and 9.
-        self.world_state -= self.num_sensors * np.floor_divide(
-            self.world_state, self.num_sensors)
+        self.world_state -= self.num_positions * np.floor_divide(
+            self.world_state, self.num_positions)
         self.simple_state = int(np.floor(self.world_state))
         if self.simple_state == 9:
             self.simple_state = 0
 
-        # Represent the presence or absence of the current position in the bin.
-        sensors = np.zeros(self.num_sensors)
-        sensors[self.simple_state] = 1
-        reward = self.assign_reward(sensors)
-
+        sensors = self.sense()
+        reward = self.assign_reward()
         return sensors, reward
 
+    def sense(self):
+        """
+        Represent the presence or absence of the current position in the bin.
 
-    def assign_reward(self, sensors):
+        Returns
+        -------
+        sensors : array of float
+            The current sensor values.
+        """
+        sensors = np.zeros(self.num_sensors)
+        sensors[self.simple_state] = 1
+        return sensors
+
+    def assign_reward(self):
         """
         Calculate the total reward corresponding to the current state
-
-        Parameters
-        ----------
-        sensors : array of floats
-            The current sensor values.
 
         Returns
         -------
@@ -156,21 +161,22 @@ class World(BaseWorld):
             The reward associated the set of input sensors.
         """
         reward = 0.
-        reward -= sensors[8]
-        reward += sensors[3]
+        if int(self.world_state) == 3:
+            reward += 1.
+        if int(self.world_state) == 8:
+            reward -= 1.
         # Punish actions just a little
         reward -= self.energy  * self.energy_cost
         reward = np.maximum(reward, -1.)
 
         return reward
 
-
-    def visualize(self, brain):
+    def visualize(self):
         """
         Show what's going on in the world.
         """
         state_image = ['.'] * (self.num_sensors + self.num_actions + 2)
-        state_image[self.simple_state] = 'O'
+        state_image[int(self.world_state)] = 'O'
         state_image[self.num_sensors:self.num_sensors + 2] = '||'
         action_index = np.where(self.action > 0.1)[0]
         if action_index.size > 0:

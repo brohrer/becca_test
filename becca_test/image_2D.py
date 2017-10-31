@@ -103,7 +103,8 @@ class World(BaseWorld):
         self.row_position = np.random.random_integers(
             self.row_min, self.row_max)
 
-        self.num_sensors = 2 * self.fov_span ** 2
+        # self.num_sensors = 2 * self.fov_span ** 2
+        self.num_sensors = self.fov_span ** 2
         self.num_actions = 16
         self.sensors = np.zeros(self.num_sensors)
         self.action = np.zeros(self.num_actions)
@@ -199,15 +200,15 @@ class World(BaseWorld):
         center_surround_pixels = wtools.center_surround(fov,
                                                         self.fov_span,
                                                         self.fov_span)
-        unsplit_sensors = center_surround_pixels.ravel()
+        self.sensors = center_surround_pixels.ravel()
         # Center surround values vary between -1 and 1. One means light
         # surrounded by dark, one means dark surrounded by light.
         # Split them each into
         # two sensors, and stack the sets of positive and negative sensors
         # together to complete the sensor array.
-        self.sensors = np.concatenate((
-            np.maximum(unsplit_sensors, 0),
-            np.abs(np.minimum(unsplit_sensors, 0))))
+        #self.sensors = np.concatenate((
+        #    np.maximum(unsplit_sensors, 0),
+        #    np.abs(np.minimum(unsplit_sensors, 0))))
 
         self.reward = 0
         rewarded_column = (np.abs(self.column_position - self.target_column) <
