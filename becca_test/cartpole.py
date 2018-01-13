@@ -1,21 +1,21 @@
 """
 Runs the OpenAI cartpole environment using Becca.
+Detailed info on CartPole here: https://gym.openai.com/envs/CartPole-v1/
 """
 
 import becca.connector
 from becca.base_world import World as BaseWorld
 
 import gym
-# import time
 import numpy as np
 
 
 class Cartpole(BaseWorld):
+
     """
     The cartpole environment from OpenAI.
     Info: https://gym.openai.com/envs/CartPole-v1/
     """
-
 
     def __init__(self, lifespan):
 
@@ -35,13 +35,13 @@ class Cartpole(BaseWorld):
         # Initialize sensors to initial value of observation from envrionment
         self.sensors = self.env.reset()
 
+        # Initialize actions
         self.action = np.zeros(self.num_actions)
 
         # Cartpole_counter is the number of steps within a full cartpole
         # simulation
         # num_iterations is the number of total cartpole iterations
         self.cartpole_counter = 0
-        # self.num_iterations = 0
 
         # The world starts with no iterations
         self.timestep = 0
@@ -78,9 +78,9 @@ class Cartpole(BaseWorld):
             The values of each of the sensors.
         """
 
-        # Choose an action; if both actions have the same value, randomly choose
         self.action = actions
-
+        # Choose an action; if both actions have the same value, randomly
+        # choose
         action = np.random.choice(np.flatnonzero(actions == self.action.max()))
 
         # Take a step in the environment, increment "timestep"
@@ -107,6 +107,8 @@ class Cartpole(BaseWorld):
         if self.timestep == self.max_iterations:
             self.alive = False
 
+        # Cartpole runs for 500 iterations by default. If we hit 500, we've won
+        # the game!
         if self.cartpole_counter == 500:
             print("Won the game")
             self.alive = False
@@ -118,17 +120,7 @@ class Cartpole(BaseWorld):
         return self.alive
 
 
-# def test():
-
-
 
 
 if __name__ == '__main__':
-    # start_time = time.time()
     becca.connector.run(Cartpole(lifespan=100))
-    # finish_time = time.time()
-    # delta_time = finish_time - start_time
-    # print('Performance is: {0:.3}'.format(performance))
-    # print(world.name, 'ran in {0:.2} seconds ({1:.2} minutes),'.format(
-    #     delta_time, delta_time / 60.))
-    # return performance, world.name
