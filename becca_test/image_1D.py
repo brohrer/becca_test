@@ -122,6 +122,7 @@ class World(BaseWorld):
         self.action = np.zeros(self.num_actions)
         self.reward = 0.
 
+        self.brain_visualize_interval = 1e3
 
     def step(self, action):
         """
