@@ -43,10 +43,9 @@ class World(Grid_1D_World):
         #     The reward that has been received, but will not be delivered to
         #     the agent yet. The index of the list indicates how many time
         #     steps will pass before delivery occurs.
-        self.future_reward = [0.] * self.max_delay
+        self.future_reward = [0] * self.max_delay
 
         self.visualize_interval = 1e6
-
 
     def assign_reward(self):
         """
@@ -58,21 +57,20 @@ class World(Grid_1D_World):
         reward : float
             The reward associated the set of input sensors.
         """
-        new_reward = 0.
+        new_reward = 0
         if int(self.world_state) == 3:
-            new_reward +=1.
+            new_reward += 1
         if int(self.world_state) == 8:
-            new_reward -=1.
+            new_reward -= 1
         # Punish actions just a little
-        new_reward -= self.energy  * self.energy_cost
+        new_reward -= self.energy * self.energy_cost
         # Find the delay for the reward
         delay = np.random.randint(0, self.max_delay)
         self.future_reward[delay] += new_reward
         # Advance the reward future by one time step
-        self.future_reward.append(0.)
+        self.future_reward.append(0)
         reward = self.future_reward.pop(0)
         return reward
-
 
     def visualize(self, brain=None):
         """

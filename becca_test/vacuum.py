@@ -17,6 +17,7 @@ import numpy as np
 import becca.connector
 from becca.base_world import World as BaseWorld
 
+
 class World(BaseWorld):
     """
     In this task, a two-room house needs to get clean.
@@ -63,7 +64,6 @@ class World(BaseWorld):
 
         self.visualize_interval = 1e3
         self.brain_visualize_interval = 1e3
-
 
     def step(self, action):
         """

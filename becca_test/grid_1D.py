@@ -18,6 +18,7 @@ import numpy as np
 import becca.connector
 from becca.base_world import World as BaseWorld
 
+
 class World(BaseWorld):
     """
     One-dimensional grid world.
@@ -70,7 +71,6 @@ class World(BaseWorld):
         self.jump_fraction = 0.1
 
         self.visualize_interval = 1e6
-
 
     def step(self, action):
         """
@@ -166,7 +166,7 @@ class World(BaseWorld):
         if int(self.world_state) == 8:
             reward -= 1.
         # Punish actions just a little
-        reward -= self.energy  * self.energy_cost
+        reward -= self.energy * self.energy_cost
         reward = np.maximum(reward, -1.)
 
         return reward

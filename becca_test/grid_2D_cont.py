@@ -12,10 +12,10 @@ To run this world from the command line
 
 """
 from __future__ import print_function
-import numpy as np
 
 import becca.connector
 from becca_test.grid_2D import World as Grid_2D_World
+
 
 class World(Grid_2D_World):
     """

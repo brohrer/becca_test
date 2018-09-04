@@ -17,7 +17,6 @@ from becca.base_world import World as BaseWorld
 import becca_test.world_tools as wtools
 
 
-
 class World(BaseWorld):
     """
     One-dimensional visual servo world
@@ -48,7 +47,7 @@ class World(BaseWorld):
         #     that is fov_span X fov_span.
         self.fov_span = 5
         self.num_sensors = self.fov_span ** 2
-        #self.num_sensors = 2 * self.fov_span ** 2
+        # self.num_sensors = 2 * self.fov_span ** 2
         self.num_actions = 8
         # jump_fraction : float
         #     The fraction of time steps on which the agent jumps to
@@ -175,13 +174,13 @@ class World(BaseWorld):
         center_surround_pixels = wtools.center_surround(fov,
                                                         self.fov_span,
                                                         self.fov_span)
-        #unsplit_sensors = center_surround_pixels.ravel()
+        # unsplit_sensors = center_surround_pixels.ravel()
         self.sensors = center_surround_pixels.ravel()
         # These can be positive or negative, so split them into two
         # sets of sensors--one for the positive values and one for the
         # negative ones. Then stack them together for one big sensor array.
-        #self.sensors = np.concatenate((np.maximum(unsplit_sensors, 0),
-        #                               np.abs(np.minimum(unsplit_sensors, 0))))
+        # self.sensors = np.concatenate((np.maximum(unsplit_sensors, 0),
+        #                           np.abs(np.minimum(unsplit_sensors, 0))))
 
         # Calculate the reward.
         self.reward = 0
@@ -191,7 +190,6 @@ class World(BaseWorld):
         self.reward -= (np.abs(column_step) /
                         self.max_step_size * self.step_cost)
         return self.sensors, self.reward
-
 
     def visualize(self, brain):
         """
@@ -265,6 +263,7 @@ class World(BaseWorld):
         fig.show()
         fig.canvas.draw()
         '''
+
 
 if __name__ == "__main__":
     becca.connector.run(World())

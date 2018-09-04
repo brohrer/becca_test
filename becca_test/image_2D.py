@@ -125,7 +125,6 @@ class World(BaseWorld):
         #     TODO: re-implement print features
         self.print_features = False
 
-
     def step(self, action):
         """
         Advance the world by one time step.
@@ -206,7 +205,7 @@ class World(BaseWorld):
         # Split them each into
         # two sensors, and stack the sets of positive and negative sensors
         # together to complete the sensor array.
-        #self.sensors = np.concatenate((
+        # self.sensors = np.concatenate((
         #    np.maximum(unsplit_sensors, 0),
         #    np.abs(np.minimum(unsplit_sensors, 0))))
 
@@ -219,7 +218,6 @@ class World(BaseWorld):
             self.reward += 1.
 
         return self.sensors, self.reward
-
 
     def visualize(self, brain):
         """

@@ -13,10 +13,10 @@ To run this world from the command line
 
 """
 from __future__ import print_function
-import numpy as np
 
 import becca.connector
 from becca_test.grid_1D_delay import World as Grid_1D_Delay_World
+
 
 class World(Grid_1D_Delay_World):
     """

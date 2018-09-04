@@ -68,7 +68,6 @@ class World(BaseWorld):
 
         self.visualize_interval = 1e6
 
-
     def step(self, action):
         """
         Advance the world one time step.
@@ -148,7 +147,6 @@ class World(BaseWorld):
         while self.target_position == self.position:
             self.target_position = int(np.random.randint(self.size))
 
-
     def assign_reward(self):
         """
         Calculate the total reward corresponding to the current state
@@ -157,8 +155,7 @@ class World(BaseWorld):
         if self.position == self.target_position:
             self.reward += 1.
         # Punish actions just a little
-        self.reward -= self.energy  * self.energy_cost
-
+        self.reward -= self.energy * self.energy_cost
 
     def visualize(self):
         """

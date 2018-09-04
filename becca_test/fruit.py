@@ -81,7 +81,6 @@ class World(BaseWorld):
         # Grab a piece of fruit to get started.
         self.grab_fruit()
 
-
     def grab_fruit(self):
         """
         Grab a new piece of fruit from the box.
@@ -106,7 +105,6 @@ class World(BaseWorld):
             self.sensors[2] = 1.
         if self.color == 1:
             self.sensors[3] = 1.
-
 
     def step(self, action):
         """
@@ -152,7 +150,6 @@ class World(BaseWorld):
             self.grab_fruit()
 
         return self.sensors, self.reward
-
 
     def visualize(self, brain):
         """

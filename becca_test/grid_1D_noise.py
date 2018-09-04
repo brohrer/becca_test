@@ -63,7 +63,6 @@ class World(BaseWorld):
 
         self.visualize_interval = 1e6
 
-
     def step(self, action):
         """
         Take one time step through the world
@@ -115,7 +114,6 @@ class World(BaseWorld):
         reward -= energy * self.energy_cost
 
         return sensors, reward
-
 
     def visualize(self, brain):
         """

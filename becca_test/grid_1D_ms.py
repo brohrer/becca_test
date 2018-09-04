@@ -59,7 +59,6 @@ class World(BaseWorld):
 
         self.visualize_interval = 1e6
 
-
     def step(self, action):
         """
         Advance the world by one time step.
@@ -104,7 +103,7 @@ class World(BaseWorld):
         sensors = np.zeros(self.num_sensors)
         sensors[self.simple_state] = 1
         return sensors
-        
+
     def assign_reward(self):
         """
         Calculate the total reward corresponding to the current state
@@ -120,7 +119,7 @@ class World(BaseWorld):
         if int(self.world_state) == 8:
             reward -= 1.
         # Punish actions just a little
-        reward -= self.energy  * self.energy_cost
+        reward -= self.energy * self.energy_cost
         reward = np.maximum(reward, -1.)
         return reward
 

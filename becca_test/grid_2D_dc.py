@@ -43,7 +43,6 @@ class World(Grid_2D_World):
         print(", decoupled")
         self.num_sensors = self.world_size * 2
 
-
     def sense(self):
         """
         Create an appropriate sensor array

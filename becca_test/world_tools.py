@@ -42,7 +42,7 @@ def center_surround(fov, fov_horz_span, fov_vert_span, verbose=False):
             super_pixels[row][col] = np.mean(
                 fov[int(float(row) * block_height):
                     int(float(row + 1) * block_height),
-                    int(float(col) * block_width) :
+                    int(float(col) * block_width):
                     int(float(col + 1) * block_width)])
     for row in range(fov_vert_span):
         for col in range(fov_horz_span):
@@ -209,7 +209,7 @@ def visualize_pixel_array_feature(
     if array_only:
         return feature_pixels
     else:
-    # Initialize the and plot the figure.
+        # Initialize the and plot the figure.
         level_str = str(level_index).zfill(2)
         feature_str = str(feature_index).zfill(3)
         fig_title = ' '.join(('Level', level_str, 'Feature', feature_str,

@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 """
 Connect a Becca brain to a world and run them.
 
@@ -72,21 +73,21 @@ def suite(lifespan=1e5):
 
     # Some tests are harder than others. Weight them accordingly.
     weights = np.array([
-        1., # grid_1D
-        1., # grid_1D_cont
-        1., # grid_1D_chase
-        1., # grid_1D_chase_cont
-        1., # grid_1D_delay
-        1., # grid_1D_delay_cont
-        1., # grid_1D_ms
-        1., # grid_1D_ms_cont
-        1., # grid_1D_noise
-        3., # grid_2D
-        4., # grid_2D_dc
-        4., # grid_2D_cont
-        5., # image_1D
-        10., # image_2D
-        3., # fruit
+        1,  # grid_1D
+        1,  # grid_1D_cont
+        1,  # grid_1D_chase
+        1,  # grid_1D_chase_cont
+        1,  # grid_1D_delay
+        1,  # grid_1D_delay_cont
+        1,  # grid_1D_ms
+        1,  # grid_1D_ms_cont
+        1,  # grid_1D_noise
+        3,  # grid_2D
+        4,  # grid_2D_dc
+        4,  # grid_2D_cont
+        5,  # image_1D
+        10,  # image_2D
+        3,  # fruit
         ])
 
     print('Individual test world scores:')

@@ -68,8 +68,7 @@ class World(BaseWorld):
         #     Punish positions (2,4) and (4,2)
         self.obstacles = [(1, 3), (3, 1)]
 
-        #self.visualize_interval = 1e3
-
+        # self.visualize_interval = 1e3
 
     def step(self, action):
         """
@@ -123,7 +122,6 @@ class World(BaseWorld):
 
         return sensors, reward
 
-
     def sense(self):
         """
         Construct the sensor array from the state information.
@@ -137,7 +135,6 @@ class World(BaseWorld):
         sensors[int(self.world_state[0] +
                     self.world_state[1] * self.world_size)] = 1
         return sensors
-
 
     def visualize(self):
         """
