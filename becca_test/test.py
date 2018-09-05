@@ -26,7 +26,6 @@ import cProfile
 import pstats
 import time
 
-import matplotlib.pyplot as plt
 import numpy as np
 
 import becca.connector
@@ -100,10 +99,7 @@ def suite(lifespan=1e5):
     print('Test suite completed in {0:.2} seconds ({1:.2} minutes)'.format(
         finish_time - start_time, (finish_time - start_time) / 60.))
 
-    # Block the program, displaying all plots.
-    # When the plot windows are closed, the program closes.
-    plt.show()
-
+    return
 
 def test_world(world_class, lifespan=1e4):
     """
