@@ -32,7 +32,6 @@ class World(Grid_1D_World):
         print('  -- continuous sensor')
         self.num_sensors = 1
         self.visualize_interval = 1e3
-        self.brain_visualize_interval = 1e4
 
     def sense(self):
         """

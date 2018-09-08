@@ -101,6 +101,7 @@ def suite(lifespan=1e5):
 
     return
 
+
 def test_world(world_class, lifespan=1e4):
     """
     Test the brain's performance on a world.

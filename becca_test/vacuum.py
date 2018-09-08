@@ -63,7 +63,6 @@ class World(BaseWorld):
         self.state = 0
 
         self.visualize_interval = 1e3
-        self.brain_visualize_interval = 1e3
 
     def step(self, action):
         """

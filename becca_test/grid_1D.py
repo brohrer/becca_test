@@ -12,7 +12,6 @@ To run this world standalone from the command line
     python -m grid_1D
 
 """
-from __future__ import print_function
 import numpy as np
 
 import becca.connector
