@@ -11,7 +11,6 @@ To run this world standalone from the command line
 
     python -m vacuum
 """
-from __future__ import print_function
 import numpy as np
 
 import becca.connector
@@ -48,15 +47,14 @@ class World(BaseWorld):
         """
         BaseWorld.__init__(self, lifespan)
         self.name = 'vacuum'
-        self.name_long = 'vacuum cleaner world'
-        print("Entering", self.name_long)
+        print("Entering", self.name)
 
-        self.num_sensors = 2
-        self.n_positions = self.num_sensors
-        self.num_actions = 2
+        self.n_sensors = 2
+        self.n_positions = self.n_sensors
+        self.n_actions = 2
         # Left: 0
         # Right: 1
-        self.action = np.zeros(self.num_actions)
+        self.action = np.zeros(self.n_actions)
         # The room the robot is in.
         # Room A: 0
         # Room B: 1
@@ -102,7 +100,7 @@ class World(BaseWorld):
         if np.abs(self.state - old_state) == 1:
             reward = 1
 
-        sensors = np.zeros(self.num_sensors)
+        sensors = np.zeros(self.n_sensors)
         sensors[int(self.state)] = 1
 
         return sensors, reward
@@ -111,15 +109,15 @@ class World(BaseWorld):
         """
         Show what's going on in the world.
         """
-        state_image = ['.'] * (self.num_sensors + self.num_actions + 2)
+        state_image = ['.'] * (self.n_sensors + self.n_actions + 2)
         state_image[int(self.state)] = 'O'
-        state_image[self.num_sensors:self.num_sensors + 2] = '||'
+        state_image[self.n_sensors:self.n_sensors + 2] = '||'
         action_index = np.where(self.action > 0.1)[0]
         if action_index.size > 0:
             for i in range(action_index.size):
-                state_image[self.num_sensors + 2 + action_index[i]] = 'x'
+                state_image[self.n_sensors + 2 + action_index[i]] = 'x'
         print(''.join(state_image))
 
 
 if __name__ == "__main__":
-    becca.connector.run(World())
+    becca.brain.run(World())

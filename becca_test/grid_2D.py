@@ -36,15 +36,14 @@ class World(BaseWorld):
         """
         BaseWorld.__init__(self, lifespan)
         self.name = 'grid_2D'
-        self.name_long = 'two dimensional grid world'
-        print("Entering", self.name_long)
+        print("Entering", self.name)
 
-        self.num_actions = 8
+        self.n_actions = 8
         # world_size : int
         #     The world consists of a 2D grid of size
         #     world_size by world_size.
         self.world_size = 5
-        self.num_sensors = self.world_size ** 2
+        self.n_sensors = self.world_size ** 2
         # world_state : float
         #     The actual position of the agent in the world.
         #     This can be fractional.
@@ -54,7 +53,7 @@ class World(BaseWorld):
         #     that is rewarded.
         #     Reward positions (2,2) and (4,4)
         self.targets = [(1, 1), (3, 3)]
-        self.action = np.zeros(self.num_actions)
+        self.action = np.zeros(self.n_actions)
         # energy_cost : float
         #     The punishment per position step taken.
         self.energy_cost = 0.05
@@ -131,7 +130,7 @@ class World(BaseWorld):
         sensors : list of floats
             The current state of the world, reflected in the sensors.
         """
-        sensors = np.zeros(self.num_sensors)
+        sensors = np.zeros(self.n_sensors)
         sensors[int(self.world_state[0] +
                     self.world_state[1] * self.world_size)] = 1
         return sensors
@@ -146,4 +145,4 @@ class World(BaseWorld):
 
 
 if __name__ == "__main__":
-    becca.connector.run(World())
+    becca.brain.run(World())

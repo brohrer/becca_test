@@ -28,9 +28,8 @@ class World(Grid_2D_World):
     def __init__(self, lifespan=None):
         Grid_2D_World.__init__(self, lifespan)
         self.name = 'grid_2D_continuous'
-        self.name_long = 'two dimensional grid world, continuous sensors'
         print('  -- continuous sensors')
-        self.num_sensors = 2
+        self.n_sensors = 2
         self.visualize_interval = 1e3
 
     def sense(self):
@@ -41,4 +40,4 @@ class World(Grid_2D_World):
 
 
 if __name__ == "__main__":
-    becca.connector.run(World())
+    becca.brain.run(World())

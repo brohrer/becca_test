@@ -49,8 +49,7 @@ class World(BaseWorld):
         """
         BaseWorld.__init__(self, lifespan)
         self.name = 'fruit'
-        self.name_long = 'fruit selection world'
-        print("Entering", self.name_long)
+        print("Entering", self.name)
         self.visualize_interval = 1e6
 
         # Break out the sensors into
@@ -61,13 +60,13 @@ class World(BaseWorld):
         # A sample sensor array would be
         #     [1., 0., 1., 0.]
         # indicating a ripe peach.
-        self.num_sensors = 4
+        self.n_sensors = 4
 
         # Break out the actions into
         #     0: eat
         #     1: discard
-        self.num_actions = 2
-        self.actions = np.zeros(self.num_actions)
+        self.n_actions = 2
+        self.actions = np.zeros(self.n_actions)
         self.reward = 0.
 
         # acted, eat, discard : boolean
@@ -96,7 +95,7 @@ class World(BaseWorld):
         self.edible = ((self.size == 0) and (self.color == 0) or
                        (self.size == 1) and (self.color == 1))
 
-        self.sensors = np.zeros(self.num_sensors)
+        self.sensors = np.zeros(self.n_sensors)
         if self.size == 0:
             self.sensors[0] = 1.
         if self.size == 1:
@@ -170,4 +169,4 @@ class World(BaseWorld):
 
 
 if __name__ == "__main__":
-    becca.connector.run(World())
+    becca.brain.run(World())

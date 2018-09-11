@@ -46,13 +46,12 @@ class World(BaseWorld):
         """
         BaseWorld.__init__(self, lifespan)
         self.name = 'grid_1D'
-        self.name_long = 'one dimensional grid world'
-        print("Entering", self.name_long)
+        print("Entering", self.name)
 
-        self.num_sensors = 9
-        self.num_positions = self.num_sensors
-        self.num_actions = 8
-        self.action = np.zeros(self.num_actions)
+        self.n_sensors = 9
+        self.num_positions = self.n_sensors
+        self.n_actions = 8
+        self.action = np.zeros(self.n_actions)
         self.energy = 0.
         # energy_cost : float
         #     The punishment per position step taken.
@@ -146,7 +145,7 @@ class World(BaseWorld):
         sensors : array of float
             The current sensor values.
         """
-        sensors = np.zeros(self.num_sensors)
+        sensors = np.zeros(self.n_sensors)
         sensors[self.simple_state] = 1
         return sensors
 
@@ -174,15 +173,15 @@ class World(BaseWorld):
         """
         Show what's going on in the world.
         """
-        state_image = ['.'] * (self.num_sensors + self.num_actions + 2)
+        state_image = ['.'] * (self.n_sensors + self.n_actions + 2)
         state_image[int(self.world_state)] = 'O'
-        state_image[self.num_sensors:self.num_sensors + 2] = '||'
+        state_image[self.n_sensors:self.n_sensors + 2] = '||'
         action_index = np.where(self.action > 0.1)[0]
         if action_index.size > 0:
             for i in range(action_index.size):
-                state_image[self.num_sensors + 2 + action_index[i]] = 'x'
+                state_image[self.n_sensors + 2 + action_index[i]] = 'x'
         print(''.join(state_image))
 
 
 if __name__ == "__main__":
-    becca.connector.run(World())
+    becca.brain.run(World())

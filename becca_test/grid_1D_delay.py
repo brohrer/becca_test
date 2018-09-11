@@ -33,7 +33,6 @@ class World(Grid_1D_World):
         """
         Grid_1D_World.__init__(self, lifespan)
         self.name = 'grid_1D_delay'
-        self.name_long = 'one dimensional grid world with delay'
         print('--delayed')
 
         # max_delay : int
@@ -76,7 +75,7 @@ class World(Grid_1D_World):
         """
         Show what's going on in the world.
         """
-        state_image = ['.'] * (self.num_positions + self.num_actions + 2)
+        state_image = ['.'] * (self.num_positions + self.n_actions + 2)
         state_image[self.simple_state] = 'O'
         state_image[self.num_positions:self.num_positions + 2] = '||'
         action_index = np.where(self.action > 0.1)[0]
@@ -87,4 +86,4 @@ class World(Grid_1D_World):
 
 
 if __name__ == "__main__":
-    becca.connector.run(World())
+    becca.brain.run(World())

@@ -39,9 +39,8 @@ class World(Grid_2D_World):
         """
         Grid_2D_World.__init__(self, lifespan)
         self.name = 'grid_2D_dc'
-        self.name_long = 'decoupled two dimensional grid world'
         print(", decoupled")
-        self.num_sensors = self.world_size * 2
+        self.n_sensors = self.world_size * 2
 
     def sense(self):
         """
@@ -52,7 +51,7 @@ class World(Grid_2D_World):
         sensors : list of floats
             The current state of the world, reflected in the sensors.
         """
-        sensors = np.zeros(self.num_sensors)
+        sensors = np.zeros(self.n_sensors)
         # Sensors 0-4 represent each of the 5 rows.
         sensors[int(self.world_state[0])] = 1
         # Sensors 5-9 represent each of the 5 columns.
@@ -61,4 +60,4 @@ class World(Grid_2D_World):
 
 
 if __name__ == "__main__":
-    becca.connector.run(World())
+    becca.brain.run(World())

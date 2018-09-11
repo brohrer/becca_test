@@ -6,7 +6,6 @@ of sensors into a few informative features. However, due to the
 construction of the task, it's not strictly necessary to build
 complex features to do well on it.
 """
-from __future__ import print_function
 import os
 
 import matplotlib.pyplot as plt
@@ -38,17 +37,16 @@ class World(BaseWorld):
             The number of time steps to continue the world.
         """
         BaseWorld.__init__(self, lifespan)
-        self.name_long = 'one dimensional visual world'
         self.name = 'image_1D'
-        print("Entering", self.name_long)
+        print("Entering", self.name)
 
         # fov_span : int
         #     The world pixelizes its field of view into a superpixel array
         #     that is fov_span X fov_span.
         self.fov_span = 5
-        self.num_sensors = self.fov_span ** 2
-        # self.num_sensors = 2 * self.fov_span ** 2
-        self.num_actions = 8
+        self.n_sensors = self.fov_span ** 2
+        # self.n_sensors = 2 * self.fov_span ** 2
+        self.n_actions = 8
         # jump_fraction : float
         #     The fraction of time steps on which the agent jumps to
         #     a random position.
@@ -117,8 +115,8 @@ class World(BaseWorld):
         # block_width : int
         #     The width of each superpixel, in number of columns.
         self.block_width = self.fov_width / (self.fov_span + 2)
-        self.sensors = np.zeros(self.num_sensors)
-        self.action = np.zeros(self.num_actions)
+        self.sensors = np.zeros(self.n_sensors)
+        self.action = np.zeros(self.n_actions)
         self.reward = 0.
 
     def step(self, action):
@@ -264,4 +262,4 @@ class World(BaseWorld):
 
 
 if __name__ == "__main__":
-    becca.connector.run(World())
+    becca.brain.run(World())

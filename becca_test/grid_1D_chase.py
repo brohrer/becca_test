@@ -38,16 +38,15 @@ class World(BaseWorld):
         """
         BaseWorld.__init__(self, lifespan)
         self.name = 'grid_1D_chase'
-        self.name_long = 'one dimensional chase grid world'
-        print("Entering", self.name_long)
+        print("Entering", self.name)
 
         # size : int
         #     The number of positions in the 1 dimensional grid.
         self.size = 7
-        self.num_sensors = self.size + 2 * (self.size - 1)
-        self.num_actions = 2 * (self.size - 1)
+        self.n_sensors = self.size + 2 * (self.size - 1)
+        self.n_actions = 2 * (self.size - 1)
         self.reward = 0.
-        self.action = np.zeros(self.num_actions)
+        self.action = np.zeros(self.n_actions)
         # jump_fraction : float
         #     The approximate fraction of time steps in which to make a
         #     random jump of the target to a new position.
@@ -58,7 +57,7 @@ class World(BaseWorld):
         # energy_cost : float
         #     The punishment per position step taken.
         self.energy_cost = 1e-2
-        self.sensors = np.zeros(self.num_sensors)
+        self.sensors = np.zeros(self.n_sensors)
         # position : int
         #     The position of the agent in the world.
         self.position = 2
@@ -128,7 +127,7 @@ class World(BaseWorld):
         array of floats
             The set of sensor values.
         """
-        sensors = np.zeros(self.num_sensors)
+        sensors = np.zeros(self.n_sensors)
         # Sense the agent's presence in each bin.
         sensors[self.position] = 1
         # Sense the relative distance to the target.
@@ -161,7 +160,7 @@ class World(BaseWorld):
         """
         Show what's going on in the world.
         """
-        state_image = ['.'] * (self.size + self.num_actions + 2)
+        state_image = ['.'] * (self.size + self.n_actions + 2)
         state_image[self.position] = 'O'
         state_image[self.target_position] = '+'
         state_image[self.size:self.size + 2] = '||'
@@ -174,4 +173,4 @@ class World(BaseWorld):
 
 
 if __name__ == "__main__":
-    becca.connector.run(World())
+    becca.brain.run(World())

@@ -33,8 +33,7 @@ class World(BaseWorld):
         """
         BaseWorld.__init__(self, lifespan)
         self.name = 'grid_1D_noise'
-        self.name_long = 'noisy one dimensional grid world'
-        print("Entering", self.name_long)
+        print("Entering", self.name)
         self.num_real_sensors = 3
         # num_noise_sensors : int
         #     Of the sensors, these are purely noise.
@@ -42,9 +41,9 @@ class World(BaseWorld):
         # num_real_sensors : int
         #     Of the sensors, these are the ones that represent position.
         self.num_noise_sensors = 10
-        self.num_sensors = self.num_noise_sensors + self.num_real_sensors
-        self.num_actions = 2
-        self.action = np.zeros(self.num_actions)
+        self.n_sensors = self.num_noise_sensors + self.num_real_sensors
+        self.n_actions = 2
+        self.action = np.zeros(self.n_actions)
         # energy_cost : float
         #     The punishment per position step taken.
         self.energy_cost = 0.01
@@ -120,7 +119,7 @@ class World(BaseWorld):
         Show what's going on in the world.
         """
         state_image = ['.'] * (self.num_real_sensors +
-                               self.num_actions + 2)
+                               self.n_actions + 2)
         state_image[self.simple_state] = 'O'
         state_image[self.num_real_sensors:self.num_real_sensors + 2] = '||'
         action_index = np.where(self.action > 0.1)[0]
@@ -130,4 +129,4 @@ class World(BaseWorld):
 
 
 if __name__ == "__main__":
-    becca.connector.run(World())
+    becca.brain.run(World())

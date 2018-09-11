@@ -5,7 +5,6 @@ Like the 1D visual servo task, this task gives Becca a chance
 to build a comparatively large number of sensors into
 a few informative features.
 """
-from __future__ import print_function
 import os
 
 import matplotlib.pyplot as plt
@@ -40,8 +39,7 @@ class World(BaseWorld):
         """
         BaseWorld.__init__(self, lifespan)
         self.name = 'image_2D'
-        self.name_long = 'two dimensional visual world'
-        print("Entering", self.name_long)
+        print("Entering", self.name)
 
         # fov_span : int
         #     The world pixelizes its field of view into a superpixel array
@@ -103,11 +101,11 @@ class World(BaseWorld):
         self.row_position = np.random.random_integers(
             self.row_min, self.row_max)
 
-        # self.num_sensors = 2 * self.fov_span ** 2
-        self.num_sensors = self.fov_span ** 2
-        self.num_actions = 16
-        self.sensors = np.zeros(self.num_sensors)
-        self.action = np.zeros(self.num_actions)
+        # self.n_sensors = 2 * self.fov_span ** 2
+        self.n_sensors = self.fov_span ** 2
+        self.n_actions = 16
+        self.sensors = np.zeros(self.n_sensors)
+        self.action = np.zeros(self.n_actions)
 
         # jump_fraction : float
         #     The fraction of time steps on which the agent jumps to
@@ -264,4 +262,4 @@ class World(BaseWorld):
 
 
 if __name__ == "__main__":
-    becca.connector.run(World())
+    becca.brain.run(World())

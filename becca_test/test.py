@@ -20,7 +20,6 @@ Profile Becca on the image2D.py world.
     python -m test -w 9 -p
 """
 
-from __future__ import print_function
 import argparse
 import cProfile
 import pstats
@@ -125,7 +124,7 @@ def test_world(world_class, lifespan=1e4):
     """
     start_time = time.time()
     world = world_class(lifespan=lifespan)
-    performance = becca.connector.run(world)
+    performance = becca.brain.run(world)
     finish_time = time.time()
     delta_time = finish_time - start_time
     print('Performance is: {0:.3}'.format(performance))
@@ -141,7 +140,7 @@ def profile(World, lifespan=1e4):
     Profile the brain's performance on the selected world.
     """
     print('Profiling Becca\'s performance...')
-    command = 'becca.connector.run(World(lifespan={0}), restore=True)'.format(
+    command = 'becca.brain.run(World(lifespan={0}), restore=True)'.format(
         lifespan)
     cProfile.run(command, 'becca_test.profile')
     profile_stats = pstats.Stats('becca_test.profile')
@@ -213,6 +212,5 @@ if __name__ == '__main__':
     elif args.profile:
         profile(World, lifespan=lifespan_arg)
     else:
-        world_arg = World(lifespan=lifespan_arg)
-        performance_out = becca.connector.run(world_arg, restore=True)
+        performance_out = becca.brain.run(World(lifespan=lifespan_arg))
         print('performance:', performance_out)

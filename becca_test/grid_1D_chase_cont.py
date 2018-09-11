@@ -27,9 +27,8 @@ class World(Grid_1D_Chase_World):
     def __init__(self, lifespan=None):
         Grid_1D_Chase_World.__init__(self, lifespan)
         self.name = 'grid_1D_chase_continuous'
-        self.name_long = 'one dimensional chase grid world, continuous sensor'
         print('  -- continuous sensor')
-        self.num_sensors = 2
+        self.n_sensors = 2
         self.visualize_interval = 1e6
 
     def sense(self):
@@ -46,4 +45,4 @@ class World(Grid_1D_Chase_World):
 
 
 if __name__ == "__main__":
-    becca.connector.run(World())
+    becca.brain.run(World())
