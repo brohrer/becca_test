@@ -45,8 +45,9 @@ from becca_test.image_1D import World as World_image_1D
 from becca_test.image_2D import World as World_image_2D
 from becca_test.fruit import World as World_fruit
 
+default_test_lifespan = 3e4
 
-def suite(lifespan=1e5):
+def suite(lifespan=1e4):
     """
     Run all the worlds in the benchmark and tabulate their performance.
     """
@@ -202,7 +203,7 @@ if __name__ == '__main__':
         args.world = 'all'
 
     if args.lifespan is None:
-        lifespan_arg = 1e5
+        lifespan_arg = default_test_lifespan
     else:
         lifespan_arg = args.lifespan * 1000
         print('Lifespan set to {0} time steps.'.format(lifespan_arg))
