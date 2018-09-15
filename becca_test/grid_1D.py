@@ -9,12 +9,12 @@ step.
 Usage
 To run this world standalone from the command line
 
-    python -m grid_1D
+    python333 -m grid_1D
 
 """
 import numpy as np
 
-import becca.connector
+import becca.brain as becca_brain
 from becca.base_world import World as BaseWorld
 
 
@@ -184,4 +184,4 @@ class World(BaseWorld):
 
 
 if __name__ == "__main__":
-    becca.brain.run(World())
+    becca_brain.run(World())

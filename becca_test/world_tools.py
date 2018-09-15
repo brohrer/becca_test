@@ -1,7 +1,6 @@
 """
 A few functions that are useful to multiple worlds
 """
-from __future__ import print_function
 import os
 
 import matplotlib.pyplot as plt
@@ -132,11 +131,11 @@ def print_pixel_array_features(projections,
                 projections[level_index][feature_index]
                 [start_index:start_index + num_pixels_x2],
                 fov_horz_span, fov_vert_span, array_only=True))
-            rect = (0., 0., 1., 1.)
+            rect = (0, 0, 1, 1)
             axes = feature_fig.add_axes(rect)
             plt.gray()
             axes.imshow(projection_image,
-                        interpolation=interp, vmin=0., vmax=1.)
+                        interpolation=interp, vmin=0, vmax=1)
 
             # Create a plot of individual features.
             filename = '_'.join(['level', str(level_index).zfill(2),
@@ -192,18 +191,18 @@ def visualize_pixel_array_feature(
     """
     # Calculate the number of pixels that span the field of view
     if fov_horz_span is None:
-        n_pixels = sensors.shape[0] / 2.
+        n_pixels = sensors.shape[0] / 2
         fov_horz_span = np.sqrt(n_pixels)
         fov_vert_span = np.sqrt(n_pixels)
     else:
         n_pixels = fov_horz_span * fov_vert_span
 
     # Maximize contrast
-    sensors *= 1. / (np.max(sensors) + tools.epsilon)
+    sensors *= 1 / (np.max(sensors) + tools.epsilon)
 
     # Calculate the visualization image pixel values.
     pixel_values = ((sensors[0:n_pixels] -
-                     sensors[n_pixels:2 * n_pixels]) + 1.0) / 2.0
+                     sensors[n_pixels:2 * n_pixels]) + 1) / 2
     feature_pixels = pixel_values.reshape(fov_vert_span, fov_horz_span)
 
     if array_only:
@@ -218,8 +217,8 @@ def visualize_pixel_array_feature(
         fig = plt.figure(tools.str_to_int(fig_name))
         fig.clf()
         plt.gray()
-        fig.add_axes(0., 0., 1., 1., frame_on=False)
-        plt.imshow(feature_pixels, vmin=0.0, vmax=1.0,
+        fig.add_axes(0, 0, 1, 1, frame_on=False)
+        plt.imshow(feature_pixels, vmin=0, vmax=1,
                    interpolation='nearest')
         plt.title(fig_title)
 
@@ -254,9 +253,9 @@ def resample2D(array, num_rows, num_cols):
     resampled_array : 2D array of floats
         The resampled version of the array with the appropriate dimensions.
     """
-    rows = (np.linspace(0., .9999999, num_rows) *
+    rows = (np.linspace(0, 1 - tools.epsilon, num_rows) *
             array.shape[0]).astype(np.int)
-    cols = (np.linspace(0., .9999999, num_cols) *
+    cols = (np.linspace(0, 1 - tools.epsilon, num_cols) *
             array.shape[1]).astype(np.int)
 
     if len(array.shape) == 2:

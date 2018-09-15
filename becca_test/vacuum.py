@@ -9,11 +9,11 @@ optimal policy for debugging.
 Usage
 To run this world standalone from the command line
 
-    python -m vacuum
+    python3 vacuum
 """
 import numpy as np
 
-import becca.connector
+import becca.brain as becca_brain
 from becca.base_world import World as BaseWorld
 
 
@@ -120,4 +120,4 @@ class World(BaseWorld):
 
 
 if __name__ == "__main__":
-    becca.brain.run(World())
+    becca_brain.run(World())

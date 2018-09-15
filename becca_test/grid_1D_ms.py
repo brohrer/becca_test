@@ -5,10 +5,9 @@ This is intended to be as similar as possible to the
 one-dimensional grid task, but requires multi-step planning
 or time-delayed reward assignment for optimal behavior.
 """
-from __future__ import print_function
 import numpy as np
 
-import becca.connector
+import becca.brain as becca_brain
 from becca.base_world import World as BaseWorld
 
 
@@ -137,4 +136,4 @@ class World(BaseWorld):
 
 
 if __name__ == "__main__":
-    becca.brain.run(World())
+    becca_brain.run(World())

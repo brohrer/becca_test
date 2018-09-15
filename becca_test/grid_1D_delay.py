@@ -5,10 +5,9 @@ This task tests an agent's ability to properly ascribe reward to the
 correct cause. The reward is delayed by a variable amount, which
 makes the task challenging.
 """
-from __future__ import print_function
 import numpy as np
 
-import becca.connector
+import becca.brain as becca_brain
 from becca_test.grid_1D import World as Grid_1D_World
 
 
@@ -86,4 +85,4 @@ class World(Grid_1D_World):
 
 
 if __name__ == "__main__":
-    becca.brain.run(World())
+    becca_brain.run(World())

@@ -10,7 +10,7 @@ import os
 import matplotlib.pyplot as plt
 import numpy as np
 
-import becca.connector
+import becca.brain as becca_brain
 from becca.base_world import World as BaseWorld
 import becca_test.world_tools as wtools
 
@@ -262,4 +262,4 @@ class World(BaseWorld):
 
 
 if __name__ == "__main__":
-    becca.brain.run(World())
+    becca_brain.run(World())

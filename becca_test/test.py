@@ -5,19 +5,19 @@ Connect a Becca brain to a world and run them.
 Command line usage
 -----
 Test Becca on the grid1D.py world.
-    python -m test --world grid1D
+    python3 test --world grid1D
         or
-    python -m test -w 1
+    python3 test -w 1
 
 Test Becca on the suite of all test worlds.
-    python -m test
+    python3 test
         or
-    python -m test -w all
+    python3 test -w all
 
 Profile Becca on the image2D.py world.
-    python -m test -w image2D --profile
+    python3 test -w image2D --profile
         or
-    python -m test -w 9 -p
+    python3 test -w 9 -p
 """
 
 import argparse
@@ -27,7 +27,7 @@ import time
 
 import numpy as np
 
-import becca.connector
+import becca.brain as becca_brain
 # Import the suite of test worlds
 from becca_test.grid_1D import World as World_grid_1D
 from becca_test.grid_1D_cont import World as World_grid_1D_cont
@@ -125,7 +125,7 @@ def test_world(world_class, lifespan=1e4):
     """
     start_time = time.time()
     world = world_class(lifespan=lifespan)
-    performance = becca.brain.run(world)
+    performance = becca_brain.run(world)
     finish_time = time.time()
     delta_time = finish_time - start_time
     print('Performance is: {0:.3}'.format(performance))
@@ -213,5 +213,5 @@ if __name__ == '__main__':
     elif args.profile:
         profile(World, lifespan=lifespan_arg)
     else:
-        performance_out = becca.brain.run(World(lifespan=lifespan_arg))
+        performance_out = becca_brain.run(World(lifespan=lifespan_arg))
         print('performance:', performance_out)

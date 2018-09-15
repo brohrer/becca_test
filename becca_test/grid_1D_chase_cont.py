@@ -8,12 +8,10 @@ discretize the input.
 
 To run this world from the command line
 
-    python -m grid_1D_chase_cont
+    python3 grid_1D_chase_cont
 
 """
-from __future__ import print_function
-
-import becca.connector
+import becca.brain as becca_brain
 from becca_test.grid_1D_chase import World as Grid_1D_Chase_World
 
 
@@ -45,4 +43,4 @@ class World(Grid_1D_Chase_World):
 
 
 if __name__ == "__main__":
-    becca.brain.run(World())
+    becca_brain.run(World())

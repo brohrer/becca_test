@@ -14,10 +14,9 @@ of its sensors, rather than each one individually. This is
 mathematically related to the XOR task, a challenge for
 many machine learning algorithms.
 """
-from __future__ import print_function
 import numpy as np
 
-import becca.connector
+import becca.brain as becca_brain
 from becca.base_world import World as BaseWorld
 
 
@@ -169,4 +168,4 @@ class World(BaseWorld):
 
 
 if __name__ == "__main__":
-    becca.brain.run(World())
+    becca_brain.run(World())

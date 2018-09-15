@@ -5,10 +5,9 @@ This task is a 2D extension of the 1D grid world and
 is similar to it in many ways. It is a little more
 challenging, because can take two actions to reach a reward state.
 """
-from __future__ import print_function
 import numpy as np
 
-import becca.connector
+import becca.brain as becca_brain
 from becca.base_world import World as BaseWorld
 
 
@@ -145,4 +144,4 @@ class World(BaseWorld):
 
 
 if __name__ == "__main__":
-    becca.brain.run(World())
+    becca_brain.run(World())

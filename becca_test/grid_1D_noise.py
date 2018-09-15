@@ -7,10 +7,9 @@ of sensors that are pure noise distractors. Many learning methods
 make the implicit assumption that all sensors are informative.
 This task is intended to break them.
 """
-from __future__ import print_function
 import numpy as np
 
-import becca.connector
+import becca.brain as becca_brain
 from becca.base_world import World as BaseWorld
 
 
@@ -129,4 +128,4 @@ class World(BaseWorld):
 
 
 if __name__ == "__main__":
-    becca.brain.run(World())
+    becca_brain.run(World())

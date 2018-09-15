@@ -7,10 +7,9 @@ There is only one reward state and it can be reached in a single
 step. The target keeps moving, so it does require the ability to respond
 to sensory information.
 """
-from __future__ import print_function
 import numpy as np
 
-import becca.connector
+import becca.brain as becca_brain
 from becca.base_world import World as BaseWorld
 
 
@@ -173,4 +172,4 @@ class World(BaseWorld):
 
 
 if __name__ == "__main__":
-    becca.brain.run(World())
+    becca_brain.run(World())
